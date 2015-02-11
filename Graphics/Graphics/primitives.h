@@ -1,6 +1,5 @@
 #pragma once
-
-#include <GL\glut.h>
+#include "platform.h"
 
 //
 // Title: Primitives

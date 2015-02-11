@@ -1,7 +1,7 @@
 #pragma once
 
 #include "primitives.h"
-#include "constants.h"
+#include "platform.h"
 #include "vec.h"
 #include "mat.h"
 #include "math.h"

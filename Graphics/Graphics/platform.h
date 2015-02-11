@@ -29,8 +29,13 @@
 // PS3
 // would use OpenGL variant
 #elif defined(MAC)
-// MAC
+// Mac (OSX)
 // would use OpenGL
+#elif defined(WIN)
+// Windows
+// would use DX 12 
 #else // DEFAULT
+
+#include <GL\glew.h>
 #include <GL\glut.h>
 #endif

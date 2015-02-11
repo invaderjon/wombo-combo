@@ -1,9 +1,18 @@
-#pragma once
+#include "Manager.h"
 
-#include "graphics.h"
+using namespace graphics;
+
+//
+// Title: Main
+// Author: Jonathan DiGiacomo
+// Version: 1.0.0
+// 
+// The application runner.
+//
 
 int main(int argc, char **argv)
 {
-
-	return 0;
+	Manager manager;
+	manager.init(argc, argv);
+	return manager.start("Wombo Combo");
 }
