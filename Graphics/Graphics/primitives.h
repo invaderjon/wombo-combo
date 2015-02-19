@@ -1,5 +1,6 @@
 #pragma once
-#include "platform.h"
+
+#include "Platform.h"
 
 //
 // Title: Primitives

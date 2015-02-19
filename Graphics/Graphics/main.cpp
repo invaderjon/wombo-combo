@@ -1,4 +1,4 @@
-#include "Manager.h"
+#include "Engine.h"
 
 using namespace graphics;
 
@@ -12,7 +12,6 @@ using namespace graphics;
 
 int main(int argc, char **argv)
 {
-	Manager manager;
-	manager.init(argc, argv);
-	return manager.start("Wombo Combo");
+	Engine engine;
+	return engine.start(argc, argv);
 }
