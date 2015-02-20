@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #define MOUSE_LEFT 1
 #define MOUSE_RIGHT 2
 #define MOUSE_MIDDLE 3
@@ -30,13 +32,6 @@
 
 namespace graphics
 {
-	typedef struct	sCursor
-	{
-		double		x;
-		double		y;
 
-		// constructor
-		sCursor() : x(0.0), y(0.0) { }
-		sCursor(double X, double Y) : x(X), y(Y) { }
-	}				Cursor;
+	typedef glm::vec2 Cursor;
 }

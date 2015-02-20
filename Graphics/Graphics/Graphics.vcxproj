@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArcBallCamera.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="IControllable.cpp" />
@@ -87,6 +88,7 @@
     <None Include="sh_frag_default.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArcBallCamera.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Engine.h" />
@@ -97,11 +99,8 @@
     <ClInclude Include="InputPrinter.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Matrices.h" />
-    <ClInclude Include="Math.h" />
     <ClInclude Include="Primitives.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

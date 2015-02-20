@@ -5,7 +5,6 @@ using namespace std;
 
 Engine::Engine()
 {
-	glfwCamera
 }
 
 Engine::~Engine()
