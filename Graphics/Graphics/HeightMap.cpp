@@ -60,6 +60,8 @@ void HeightMap::push(Attributes& attrs)
 
 void HeightMap::update(Mat4* view)
 {
+	mModelMatrix = Mat4();
+	mModelMatrix[0][0] = mModelMatrix[1][1] = mModelMatrix[2][2] = mModelMatrix[3][3] = 1.0f;
 	Mat3 modelView = Mat3(*view * mModelMatrix);
 	mNormalMatrix = glm::inverseTranspose(modelView);
 }
@@ -76,7 +78,7 @@ void HeightMap::render(ShaderIndices* indices)
 
 	// draws height map
 	glBindVertexArray(mVAO);
-	glDrawElements(GL_TRIANGLES, mFaces.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mFaces.size() * 3 * sizeof(Vert), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
@@ -127,14 +129,20 @@ vector<GEfloat> HeightMap::decodeImage(string path, GEuint& width, GEuint& heigh
 
 	// calculates the value of each pixel and stores it in the vector
 	GEuint x, y;
+	GEfloat mx = 0;
+	GEfloat mn = 0;
 	for (y = 0; y < height; y++)
 	{
 		for (x = 0; x < width; x++)
 		{
-			v = mMaxHeight * ((image(x, y, 0, 0) + image(x, y, 0, 1) + image(x, y, 0, 2)) / GEfloat(3 * 0xFF));
+			v = mMaxHeight * (image(x, y, 0, 0)/255.0f);
+			mx = std::fmax(mx, v);
+			mn = std::fmin(mn, v);
 			vals.push_back(v);
 		}
 	}
+
+	cout << "Min: " << mn << "  Max: " << mx << endl;
 
 	return vals;
 }
@@ -142,8 +150,8 @@ vector<GEfloat> HeightMap::decodeImage(string path, GEuint& width, GEuint& heigh
 void HeightMap::genVertices(vector<Vert>& out, GEfloat* zCoords, GEuint width, GEuint height)
 {
 	GEuint largest = width >= height ? width : height;
-	GEdouble xIncr = (width / GEdouble(largest * largest));
-	GEdouble yIncr = (height / GEdouble(largest * largest));
+	GEdouble xIncr = 2 * (width / GEdouble(largest * largest));
+	GEdouble yIncr = 2 * (height / GEdouble(largest * largest));
 	GEuint r, c;
 
 	cout << "Xincr: " << xIncr << "  Yinc: " << yIncr;
@@ -235,18 +243,19 @@ void HeightMap::calcVertexNormals(vector<Tri>& tris, vector<Vec3>& normals, vect
 
 	// averages each calculated vertex norm
 	for (i = 0; i < counts.size(); i++)
-		verts[i].normal /= counts[i];
+		verts[i].normal = glm::normalize(verts[i].normal);
 }
 
 Vec3 HeightMap::calcFaceNormal(Vec3& a, Vec3& b, Vec3& c)
 {
-	Vec3 u(b.x - a.x, b.y - a.y, b.z - a.z);
-	Vec3 v(c.x - a.x, c.y - a.y, c.z - a.z);
+	Vec3 u = b - a;
+	Vec3 v = c - a;
 
 	Vec3 n = glm::cross(u, v);
 	n = glm::normalize(n);
+	float sin_alpha = glm::length(n) / (length(u) * length(v));
 
-	return n;
+	return n * sin_alpha;
 }
 
 void HeightMap::clear()

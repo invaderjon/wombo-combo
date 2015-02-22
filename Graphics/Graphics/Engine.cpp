@@ -83,6 +83,7 @@ int Engine::initGLFW()
 	glfwSetCursorPosCallback(mWindow, InputManager::onMouseMove);
 	glfwSetScrollCallback(mWindow, InputManager::onScroll);
 	glfwSetDropCallback(mWindow, InputManager::onFileDropped);
+	glfwSetWindowSizeCallback(mWindow, Engine::resize);
 
 	// sets up rendering options
 	glfwSwapInterval(1);
@@ -199,8 +200,8 @@ void Engine::initEngine()
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(Vert), data, GL_STATIC_DRAW);
 
 	// sets attributes
-	glVertexAttribPointer(mIndices.attrs.position, 4, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
-	glVertexAttribPointer(mIndices.attrs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(4 * sizeof(GEfloat)));
+	glVertexAttribPointer(mIndices.attrs.position, 3, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
+	glVertexAttribPointer(mIndices.attrs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(3 * sizeof(GEfloat)));
 
 	// enables attributes
 	glEnableVertexAttribArray(mIndices.attrs.position);
@@ -215,7 +216,7 @@ void Engine::initEngine()
 
 void Engine::loadHeightMap()
 {
-	mHeightMap = new HeightMap("map.bmp", .1f);
+	mHeightMap = new HeightMap("map2.bmp", .1f);
 	mHeightMap->push(mIndices.attrs);
 }
 
@@ -232,13 +233,8 @@ void Engine::loop()
 
 void Engine::update()
 {
-	Mat4 view = mCamera->view();
-
-	// updates global matrices
-	glUniformMatrix4fv(mIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(view));
-
 	// updates the heightmap
+	Mat4 view = mCamera->view();
 	mHeightMap->update(&view);
 }
 
@@ -246,33 +242,30 @@ void Engine::render()
 {
 	// clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
+	// updates global matrices
+	glUniformMatrix4fv(mIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(glm::perspective(60.0f, mCamera->aspectRatio(), 1.0f, 100.0f)));
+	glUniformMatrix4fv(mIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
 	// renders the heightmap
 	mHeightMap->render(&mIndices);
-	
-	// set init material
-	Material m;
-	m.diffuse = Vec3(1.0, 1.0, 1.0);
-	m.ambient = Vec3(.2, .1, .1);
-	m.specular = Vec3(1, 1, 1);
-	m.shininess = .2;
-	glBindBuffer(GL_UNIFORM_BUFFER, mIndices.material.buffer);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(Material), &m, GL_DYNAMIC_DRAW);
 
-	// test draw
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glBindVertexArray(0);
-
+	// draw
 	glfwSwapBuffers(mWindow);
+}
+
+void Engine::resize(GLFWwindow* window, GEint width, GEint height)
+{
 }
 
 void Engine::measure()
 {
 	// updates the frame size
 	glfwGetFramebufferSize(mWindow, &width, &height);
+	glViewport(0, 0, width, height);
 	ratio = width / (float)height;
 	mCamera->setSize(width, height);
+	
 }
 
 void Engine::onErrorReceived(int error, const char* description)
