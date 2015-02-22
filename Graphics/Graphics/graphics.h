@@ -47,7 +47,7 @@ namespace graphics
 	// vertex information
 	typedef struct sVert
 	{
-		Vec4		position;
+		Vec3		position;
 		Vec3		normal;
 
 		GEfloat &operator [] (int i)
@@ -71,7 +71,7 @@ namespace graphics
 		}
 
 		sVert() : position(), normal() { }
-		sVert(const Vec4& pos, const Vec3& norm) : position(pos), normal(norm) { }
+		sVert(const Vec3& pos, const Vec3& norm) : position(pos), normal(norm) { }
 
 	}				Vert;
 

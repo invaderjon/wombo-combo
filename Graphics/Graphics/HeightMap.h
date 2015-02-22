@@ -46,7 +46,7 @@ namespace graphics
 		void  calcVertexNormals(vector<Tri>& triangles, vector<Vec3>& faceNormals, vector<Vert>& vertices);
 
 		// calculates a face normal using the verts presented as vecs
-		inline Vec3 calcFaceNormal(Vec4& a, Vec4& b, Vec4& c);
+		inline Vec3 calcFaceNormal(Vec3& a, Vec3& b, Vec3& c);
 
 		// clears all the data
 		void clear();

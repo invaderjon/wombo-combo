@@ -42,8 +42,8 @@ void HeightMap::push(Attributes& attrs)
 	glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(Vert), &mVertices[0], GL_STATIC_DRAW);
 
 	// sets attributes
-	glVertexAttribPointer(attrs.position, 4, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
-	glVertexAttribPointer(attrs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(4 * sizeof(GEfloat)));
+	glVertexAttribPointer(attrs.position, 3, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
+	glVertexAttribPointer(attrs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(3 * sizeof(GEfloat)));
 
 	// enables attributes
 	glEnableVertexAttribArray(attrs.position);
@@ -76,7 +76,7 @@ void HeightMap::render(ShaderIndices* indices)
 
 	// draws height map
 	glBindVertexArray(mVAO);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mFaces.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
@@ -142,16 +142,18 @@ vector<GEfloat> HeightMap::decodeImage(string path, GEuint& width, GEuint& heigh
 void HeightMap::genVertices(vector<Vert>& out, GEfloat* zCoords, GEuint width, GEuint height)
 {
 	GEuint largest = width >= height ? width : height;
-	GEdouble xIncr = width / largest;
-	GEdouble yIncr = height / largest;
+	GEdouble xIncr = (width / GEdouble(largest * largest));
+	GEdouble yIncr = (height / GEdouble(largest * largest));
 	GEuint r, c;
+
+	cout << "Xincr: " << xIncr << "  Yinc: " << yIncr;
 
 	for (r = 0; r < height; r++)
 	{
 		for (c = 0; c < width; c++)
 		{
 			out.push_back(Vert(
-				Vec4(GEfloat(xIncr * c), GEfloat(yIncr * r), zCoords[r * width + c], 1),
+				Vec3(GEfloat(xIncr * c - 1), GEfloat(yIncr * r - 1), zCoords[r * width + c]),
 				Vec3()));
 		}
 	}
@@ -189,7 +191,7 @@ void HeightMap::calcFaceNormals(vector<Vec3>& norms, Tri* tris, Vert* verts, GEu
 {
 	GEuint i;
 	Tri f;
-	Vec4 a, b, c;
+	Vec3 a, b, c;
 
 	for (i = 0; i < count; i++)
 	{
@@ -236,7 +238,7 @@ void HeightMap::calcVertexNormals(vector<Tri>& tris, vector<Vec3>& normals, vect
 		verts[i].normal /= counts[i];
 }
 
-Vec3 HeightMap::calcFaceNormal(Vec4& a, Vec4& b, Vec4& c)
+Vec3 HeightMap::calcFaceNormal(Vec3& a, Vec3& b, Vec3& c)
 {
 	Vec3 u(b.x - a.x, b.y - a.y, b.z - a.z);
 	Vec3 v(c.x - a.x, c.y - a.y, c.z - a.z);

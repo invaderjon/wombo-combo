@@ -134,6 +134,7 @@ void Engine::initGL() {
 
 	// creates the new program
 	Program program(&shaders[0], 2);
+	glUseProgram(program.id());
 
 	// releases the shaders
 	shaders[0].release();
@@ -188,9 +189,9 @@ void Engine::initEngine()
 	glBindVertexArray(vao);
 
 	data = new Vert[3];
-	data[0] = Vert(Vec4(-0.6f, -0.4f, 0.f, 1.0f), Vec3(0.0f, 0.0f, 1.0f));
-	data[1] = Vert(Vec4(0.6f, -0.4f, 0.f, 1.0f), Vec3(0.0f, 0.0f, 1.0f));
-	data[2] = Vert(Vec4(0.f, 0.6f, 0.f, 1.0f), Vec3(0.0f, 0.0f, 1.0f));
+	data[0] = Vert(Vec3(-0.6f, -0.4f, 0.f), glm::normalize(Vec3(0.0f, 1.0f, 0.0f)));
+	data[1] = Vert(Vec3(0.6f, -0.4f, 0.f), glm::normalize(Vec3(0.0f, 1.0f, 0.0f)));
+	data[2] = Vert(Vec3(0.f, 0.6f, 0.f), glm::normalize(Vec3(0.0f, 1.0f, 0.0f)));
 
 	// creates buffers
 	glGenBuffers(1, &test);
@@ -249,6 +250,15 @@ void Engine::render()
 	// renders the heightmap
 	mHeightMap->render(&mIndices);
 	
+	// set init material
+	Material m;
+	m.diffuse = Vec3(1.0, 1.0, 1.0);
+	m.ambient = Vec3(.2, .1, .1);
+	m.specular = Vec3(1, 1, 1);
+	m.shininess = .2;
+	glBindBuffer(GL_UNIFORM_BUFFER, mIndices.material.buffer);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(Material), &m, GL_DYNAMIC_DRAW);
+
 	// test draw
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 3);

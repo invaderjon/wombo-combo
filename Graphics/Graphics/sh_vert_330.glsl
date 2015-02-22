@@ -7,7 +7,7 @@ uniform mat4 mProjection;
 uniform mat3 mNormal;
 
 // vertex vectors
-in vec4 vPosition;
+in vec3 vPosition;
 in vec3 vNormal;
 
 out vec3 normal;
@@ -16,8 +16,9 @@ out vec3 eye;
 void main()
 {
 	mat4 viewModel = mView * mModel;
+	vec4 pos = vec4(vPosition, 1.0);
 	normal = normalize(mNormal * vNormal);
-	eye = -(viewModel * vPosition);
+	eye = -(viewModel * pos);
 
-	gl_Position = mProjection * mView * mModel * vPosition;
+	gl_Position = pos;
 }

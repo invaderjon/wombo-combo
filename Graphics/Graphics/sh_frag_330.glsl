@@ -7,14 +7,8 @@ layout (std140) uniform Material {
 	float shininess;
 };
 
-layout (std140) uniform Lights {
-	vec3 l_dir;
-};
-
 in vec3 normal;
 in vec3 eye;
-
-out vec4 color;
 
 void main()
 {
@@ -24,9 +18,14 @@ void main()
 	// normalize both input vectors
 	vec3 n = normalize(normal);
 	vec3 e = normalize(eye);
+	vec3 l_dir = vec3(0, -1, -1);
+	vec3 ambient = vec3(.05, .05, .05);
+	vec3 specular = vec3(1, 1, 1);
+	float shininess = .05;
+	vec3 diffuse = vec3(.7, .7, .7);
 
 	// calculates the light intensity
-	float intensity = max(dot(n, l_dir), 0.0);
+	float intensity = max(dot(n, -l_dir), 0.0);
 
 	// if lit compute specular
 	if (intensity > 0.0)
@@ -36,9 +35,9 @@ void main()
 
 		// compute specular
 		float intSpec = max(dot(h, n), 0.0);
-		spec = specular * pow(intSpec, shininess);
+		spec = specular * pow(intSpec, 1.0-shininess);
 	}
 
 	// sets the color
-	color = vec4(1.0, 0.0, 0.0, 1.0);//vec4(max(diffuse * intensity + spec, ambient), 1.0);
+	gl_FragColor = vec4(max(diffuse * intensity + spec, ambient), 1.0);
 }

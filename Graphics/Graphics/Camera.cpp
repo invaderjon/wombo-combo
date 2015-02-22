@@ -227,7 +227,7 @@ void Camera::setDOF(GEfloat DOF)
 /// <returns>The aspect ratio.</returns>
 GEfloat Camera::aspectRatio() const
 {
-	return mWidth / mHeight;
+	return (mHeight > 0) ? mWidth / mHeight : 0.00001f;
 }
 
 /// <summary>
@@ -255,8 +255,8 @@ GEfloat Camera::height() const
 /// <param name="height">The display height.</param>
 void Camera::setSize(GEfloat width, GEfloat height)
 {
-	assert(width > 0);
-	assert(height > 0);
+	//assert(width > 0);
+	//assert(height > 0);
 	mWidth = width;
 	mHeight = height;
 }
@@ -328,7 +328,7 @@ Mat4 Camera::orientation() const
 {
 	Quat rot = mRotation;
 	rot = glm::inverse(rot);
-	cout << "Rot: " << rot.x << ", " << rot.y << ", " << rot.z << ", " << rot.w << endl;
+	//cout << "Rot: " << rot.x << ", " << rot.y << ", " << rot.z << ", " << rot.w << endl;
 	return glm::mat4_cast(rot);
 }
 
