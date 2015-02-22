@@ -35,12 +35,63 @@ namespace graphics
 	typedef Vec4 Color4; // rgba
 
 	// vertices
-	typedef Vec2 Vert2; // 2D vertex
-	typedef Vec3 Vert3; // 3D vertex
-	typedef Vec4 Vert4; // 4D vertex
+	typedef Vec2 Point2; // 2D vertex
+	typedef Vec3 Point3; // 3D vertex
+	typedef Vec4 Point4; // 4D vertex
 
 	// normals
 	typedef Vec2 Norm2; // 2D normal
 	typedef Vec3 Norm3; // 3D normal
 	typedef Vec4 Norm4; // 4D normal
+
+	// vertex information
+	typedef struct sVert
+	{
+		Vec4		position;
+		Vec3		normal;
+
+		GEfloat &operator [] (int i)
+		{
+			return *(&position.x + i);
+		}
+
+		const GEfloat operator [] (int i) const
+		{
+			return *(&position.x + i);
+		}
+
+		operator const GEfloat* () const
+		{
+			return static_cast<const GEfloat*>(&position.x);
+		}
+
+		operator GEfloat* ()
+		{
+			return static_cast<GEfloat*>(&position.x);
+		}
+
+		sVert() : position(), normal() { }
+		sVert(const Vec4& pos, const Vec3& norm) : position(pos), normal(norm) { }
+
+	}				Vert;
+
+	typedef struct sTri
+	{
+		GEuint		a;
+		GEuint		b;
+		GEuint		c;
+
+		operator const GEuint* () const
+		{
+			return static_cast<const GEuint*>(&a);
+		}
+
+		operator GEuint* ()
+		{
+			return static_cast<GEuint*>(&a);
+		}
+
+		sTri() : a(0), b(0), c(0) { }
+		sTri(GEuint A, GEuint B, GEuint C) : a(A), b(B), c(C) { }
+	}				Tri;
 }

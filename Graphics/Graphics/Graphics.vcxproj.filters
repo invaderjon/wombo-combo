@@ -42,19 +42,31 @@
     <ClCompile Include="ArcBallCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IRenderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="sh_frag_default.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="sh_vert_default.glsl">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="glew32.dll">
       <Filter>Source Files</Filter>
     </None>
     <None Include="glfw3.dll">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="sh_frag_330.glsl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="sh_vert_330.glsl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -98,5 +110,31 @@
     <ClInclude Include="ArcBallCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="hub_world_1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="map.bmp">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="australia.bmp">
+      <Filter>Source Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

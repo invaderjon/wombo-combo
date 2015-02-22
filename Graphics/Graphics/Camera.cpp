@@ -3,6 +3,7 @@
 using namespace graphics;
 
 Camera::Camera()
+	: IControllable()
 {
 }
 
@@ -315,6 +316,7 @@ Mat4 Camera::projection() const
 /// <returns>The view matrix.</returns>
 Mat4 Camera::view() const
 {
+	//cout << "Position: " << mPosition.x << ", " << mPosition.y << ", " << mPosition.z << endl;
 	return glm::translate(orientation(), -mPosition);
 }
 
@@ -325,7 +327,8 @@ Mat4 Camera::view() const
 Mat4 Camera::orientation() const
 {
 	Quat rot = mRotation;
-	rot.w = -rot.w; // reverse rotation
+	rot = glm::inverse(rot);
+	cout << "Rot: " << rot.x << ", " << rot.y << ", " << rot.z << ", " << rot.w << endl;
 	return glm::mat4_cast(rot);
 }
 

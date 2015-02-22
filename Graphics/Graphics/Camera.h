@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h>
 #include "Graphics.h"
 #include "IControllable.h"
 
@@ -10,6 +11,8 @@
 //
 // Provides a base list of methods used by all cameras to orient themselves.
 //
+
+using namespace std;
 
 namespace graphics
 {

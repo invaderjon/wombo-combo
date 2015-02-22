@@ -1,8 +1,15 @@
 #pragma once
 
+#include <sstream>
 #include "Graphics.h"
 #include "InputManager.h"
 #include "InputPrinter.h"
+#include "Program.h"
+#include "HeightMap.h"
+#include "ShaderStructs.h"
+#include "Camera.h"
+#include "ArcBallCamera.h"
+#include "Buffers.h"
 
 //
 // Title: Engine
@@ -25,8 +32,12 @@ namespace graphics
 	private:
 		int parseArgs(int argc, char** argv);
 		int initGLFW();
+		GEenum initGLEW();
 		void initGL();
+		void initEngine();
+		void loadHeightMap();
 		void loop();
+		void update();
 		void render();
 		void measure();
 		static void onErrorReceived(int error, const char* description);
@@ -35,7 +46,13 @@ namespace graphics
 		int width = DEFAULT_WINDOW_WIDTH;
 		int height = DEFAULT_WINDOW_HEIGHT;
 		float ratio = width / (float)height;
-		GLFWwindow* window;
-		InputManager* inputManager;
+		GLFWwindow* mWindow;
+		InputManager* mInputManager;
+		Camera* mCamera;
+		ShaderIndices mIndices;
+		HeightMap* mHeightMap;
+		GEuint vao;
+		GEuint test;
+		Vert* data;
 	};
 }

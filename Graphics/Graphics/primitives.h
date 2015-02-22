@@ -26,6 +26,12 @@ namespace graphics
 	typedef GLushort GEushort;
 	typedef GLubyte GEubyte;
 
+	// char
+	typedef GLchar GEchar;
+
 	// boolean
 	typedef GLboolean GEboolean;
+
+	// enum
+	typedef GLenum GEenum;
 }

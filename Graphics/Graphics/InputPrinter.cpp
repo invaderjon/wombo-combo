@@ -23,13 +23,13 @@ void InputPrinter::onClick(int button, int action, int mods)
 	// determines the button
 	switch (button)
 	{
-	case MOUSE_LEFT:
+	case GE_MOUSE_LEFT:
 		sButton = "left button";
 		break;
-	case MOUSE_RIGHT:
+	case GE_MOUSE_RIGHT:
 		sButton = "right button";
 		break;
-	case MOUSE_MIDDLE:
+	case GE_MOUSE_MIDDLE:
 		sButton = "middle button";
 		break;
 	default:
@@ -40,13 +40,13 @@ void InputPrinter::onClick(int button, int action, int mods)
 	// determines the action
 	switch (action)
 	{
-	case INPUT_ACTION_PRESS:
+	case GE_INPUT_ACTION_PRESS:
 		sAction = "pressed";
 		break;
-	case INPUT_ACTION_RELEASE:
+	case GE_INPUT_ACTION_RELEASE:
 		sAction = "released";
 		break;
-	case INPUT_ACTION_REPEAT:
+	case GE_INPUT_ACTION_REPEAT:
 		sAction = "being held";
 		break;
 	default:
@@ -65,28 +65,28 @@ void InputPrinter::onInput(int key, int action, int mods)
 	// determines the key being updated
 	switch (key)
 	{
-	case KEY_UP:
+	case GE_KEY_UP:
 		sKey = "UP";
 		break;
-	case KEY_DOWN:
+	case GE_KEY_DOWN:
 		sKey = "DOWN";
 		break;
-	case KEY_LEFT:
+	case GE_KEY_LEFT:
 		sKey = "LEFT";
 		break;
-	case KEY_RIGHT:
+	case GE_KEY_RIGHT:
 		sKey = "RIGHT";
 		break;
-	case KEY_CONFIRM:
+	case GE_KEY_CONFIRM:
 		sKey = "CONFIRM/SELECT";
 		break;
-	case KEY_CANCEL:
+	case GE_KEY_CANCEL:
 		sKey = "CANCEL";
 		break;
-	case KEY_SPACE:
+	case GE_KEY_SPACE:
 		sKey = "SPACE";
 		break;
-	case KEY_UNKNOWN:
+	case GE_KEY_UNKNOWN:
 	default:
 		sKey = "UNKNOWN";
 		break;
@@ -95,13 +95,13 @@ void InputPrinter::onInput(int key, int action, int mods)
 	// determines the action
 	switch (action)
 	{
-	case INPUT_ACTION_PRESS:
+	case GE_INPUT_ACTION_PRESS:
 		sAction = "pressed";
 		break;
-	case INPUT_ACTION_RELEASE:
+	case GE_INPUT_ACTION_RELEASE:
 		sAction = "released";
 		break;
-	case INPUT_ACTION_REPEAT:
+	case GE_INPUT_ACTION_REPEAT:
 		sAction = "being held";
 		break;
 	default:

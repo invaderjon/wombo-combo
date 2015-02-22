@@ -3,6 +3,7 @@
 using namespace graphics;
 
 ArcBallCamera::ArcBallCamera()
+	: Camera()
 {
 }
 
@@ -12,16 +13,16 @@ ArcBallCamera::~ArcBallCamera()
 
 void ArcBallCamera::onClick(int button, int action, int mods)
 {
-	int down = action != INPUT_ACTION_RELEASE;
+	int down = action != GE_INPUT_ACTION_RELEASE;
 	switch (button)
 	{
-	case MOUSE_LEFT:
+	case GE_MOUSE_LEFT:
 		if (down)
 			mMotionType = MOTION_ROTATE;
 		else
 			mMotionType = MOTION_NONE;
 		break;
-	case MOUSE_MIDDLE:
+	case GE_MOUSE_MIDDLE:
 		if (down)
 			mMotionType = MOTION_TRANSLATE;
 		else
@@ -34,6 +35,8 @@ void ArcBallCamera::onClick(int button, int action, int mods)
 	// if motion type is now none reset cursor
 	if (mMotionType == MOTION_NONE)
 		mPrevPos = INVALID_CURSOR;
+
+	cout << "Motion: " << mMotionType << endl;
 }
 
 void ArcBallCamera::onCursorMove(Cursor cursor)
@@ -82,4 +85,10 @@ void ArcBallCamera::onCursorMove(Cursor cursor)
 
 	// updates the previous position
 	mPrevPos = cursor;
+}
+
+void ArcBallCamera::onScroll(double xoffset, double yoffset)
+{
+	GEfloat dy = GEfloat(yoffset) / SCROLL_SCALE;
+	offsetLocalPosition(Vec3(0, dy, 0));
 }

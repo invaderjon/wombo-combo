@@ -6,7 +6,7 @@ InputManager* InputManager::sInstance = NULL;
 
 // (de)constructors
 
-InputManager::InputManager()
+InputManager::InputManager() : mListeners(), mMtx()
 {
 }
 
@@ -34,27 +34,27 @@ void InputManager::onKeyboardInput(GLFWwindow* window, int key, int scanCode, in
 
 	// calculates the mods
 	if (mods & GLFW_MOD_SHIFT)
-		keyMods |= MOD_SHIFT;
+		keyMods |= GE_MOD_SHIFT;
 	else if (mods & GLFW_MOD_CONTROL)
-		keyMods |= MOD_CTRL;
+		keyMods |= GE_MOD_CTRL;
 	else if (mods & GLFW_MOD_SUPER)
-		keyMods |= MOD_CTRL;
+		keyMods |= GE_MOD_CTRL;
 	else if (mods & GLFW_MOD_ALT)
-		keyMods |= MOD_ALT;
+		keyMods |= GE_MOD_ALT;
 	mods = keyMods;
 
 	// determines the action
 	switch (action)
 	{
 	case GLFW_PRESS:				// key pressed
-		action = INPUT_ACTION_PRESS;
+		action = GE_INPUT_ACTION_PRESS;
 		break;
 	case GLFW_REPEAT:				// key held & repeat
-		action = INPUT_ACTION_REPEAT;
+		action = GE_INPUT_ACTION_REPEAT;
 		break;
 	case GLFW_RELEASE:				// key released
 	default:
-		action = INPUT_ACTION_RELEASE;
+		action = GE_INPUT_ACTION_RELEASE;
 		break;
 	}
 
@@ -63,28 +63,28 @@ void InputManager::onKeyboardInput(GLFWwindow* window, int key, int scanCode, in
 	{
 	case GLFW_KEY_W:
 	case GLFW_KEY_UP:
-		key = KEY_UP;
+		key = GE_KEY_UP;
 		break;
 	case GLFW_KEY_S:
 	case GLFW_KEY_DOWN:
-		key = KEY_DOWN;
+		key = GE_KEY_DOWN;
 		break;
 	case GLFW_KEY_A:
 	case GLFW_KEY_LEFT:
-		key = KEY_LEFT;
+		key = GE_KEY_LEFT;
 		break;
 	case GLFW_KEY_D:
 	case GLFW_KEY_RIGHT:
-		key = KEY_RIGHT;
+		key = GE_KEY_RIGHT;
 		break;
 	case GLFW_KEY_ENTER:
-		key = KEY_CONFIRM;
+		key = GE_KEY_CONFIRM;
 		break;
 	case GLFW_KEY_ESCAPE:
-		key = KEY_CANCEL;
+		key = GE_KEY_CANCEL;
 		break;
 	default:
-		key = KEY_UNKNOWN;
+		key = GE_KEY_UNKNOWN;
 		break;
 	}
 
@@ -106,39 +106,39 @@ void InputManager::onMouseButton(GLFWwindow* window, int button, int action, int
 	switch (action)
 	{
 	case GLFW_PRESS:				// key pressed
-		action = INPUT_ACTION_PRESS;
+		action = GE_INPUT_ACTION_PRESS;
 		break;
 	case GLFW_REPEAT:				// key held & repeat
-		action = INPUT_ACTION_REPEAT;
+		action = GE_INPUT_ACTION_REPEAT;
 		break;
 	case GLFW_RELEASE:				// key released
 	default:
-		action = INPUT_ACTION_RELEASE;
+		action = GE_INPUT_ACTION_RELEASE;
 		break;
 	}
 
 	// calculates the mods
 	if (mods & GLFW_MOD_SHIFT)
-		keyMods |= MOD_SHIFT;
+		keyMods |= GE_MOD_SHIFT;
 	else if (mods & GLFW_MOD_CONTROL)
-		keyMods |= MOD_CTRL;
+		keyMods |= GE_MOD_CTRL;
 	else if (mods & GLFW_MOD_SUPER)
-		keyMods |= MOD_CTRL;
+		keyMods |= GE_MOD_CTRL;
 	else if (mods & GLFW_MOD_ALT)
-		keyMods |= MOD_ALT;
+		keyMods |= GE_MOD_ALT;
 	mods = keyMods;
 
 	// TODO: react
 	switch (button)
 	{
 	case GLFW_MOUSE_BUTTON_LEFT: // 1
-		button = MOUSE_LEFT;
+		button = GE_MOUSE_LEFT;
 		break;
 	case GLFW_MOUSE_BUTTON_RIGHT: // 2
-		button = MOUSE_RIGHT;
+		button = GE_MOUSE_RIGHT;
 		break;
 	case GLFW_MOUSE_BUTTON_MIDDLE: // 3
-		button = MOUSE_MIDDLE;
+		button = GE_MOUSE_MIDDLE;
 		break;
 	case GLFW_MOUSE_BUTTON_4:
 	case GLFW_MOUSE_BUTTON_5:

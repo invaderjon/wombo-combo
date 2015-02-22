@@ -51,8 +51,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\libraries\glew\Release\x64;$(SolutionDir)\libraries\glfw\lib-vc2013;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\libraries\glew\Release\Win32;$(SolutionDir)\libraries\glfw\lib-vc2013;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -71,24 +71,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArcBallCamera.cpp" />
+    <ClCompile Include="Buffers.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="IControllable.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputPrinter.cpp" />
+    <ClCompile Include="IRenderable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Matrices.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
     <None Include="packages.config" />
-    <None Include="sh_vert_default.glsl" />
-    <None Include="sh_frag_default.glsl" />
+    <None Include="sh_vert_330.glsl">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="sh_frag_330.glsl">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcBallCamera.h" />
+    <ClInclude Include="Buffers.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Engine.h" />
@@ -97,10 +106,19 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputPrinter.h" />
+    <ClInclude Include="IRenderable.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Primitives.h" />
+    <ClInclude Include="Program.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderStructs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="australia.bmp" />
+    <Image Include="hub_world_1.png" />
+    <Image Include="map.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
