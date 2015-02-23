@@ -75,7 +75,7 @@ void ArcBallCamera::onCursorMove(Cursor cursor)
 		GEfloat dz = GEfloat(dp.y / height());
 
 		// translates using the local axis
-		offsetLocalPosition(Vec3(dx, 0, dz));
+		offsetLocalPosition(Vec3(dx, dz, 0));
 	}
 		break;
 	default:
@@ -90,5 +90,5 @@ void ArcBallCamera::onCursorMove(Cursor cursor)
 void ArcBallCamera::onScroll(double xoffset, double yoffset)
 {
 	GEfloat dy = GEfloat(yoffset) / SCROLL_SCALE;
-	offsetLocalPosition(Vec3(0, dy, 0));
+	offsetLocalPosition(Vec3(0, 0, dy));
 }

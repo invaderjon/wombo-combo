@@ -216,7 +216,7 @@ void Engine::initEngine()
 
 void Engine::loadHeightMap()
 {
-	mHeightMap = new HeightMap("map2.bmp", .1f);
+	mHeightMap = new HeightMap("map.bmp");
 	mHeightMap->push(mIndices.attrs);
 }
 

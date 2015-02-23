@@ -131,18 +131,22 @@ vector<GEfloat> HeightMap::decodeImage(string path, GEuint& width, GEuint& heigh
 	GEuint x, y;
 	GEfloat mx = 0;
 	GEfloat mn = 0;
+	GEfloat lum;
 	for (y = 0; y < height; y++)
 	{
 		for (x = 0; x < width; x++)
 		{
-			v = mMaxHeight * (image(x, y, 0, 0)/255.0f);
+			lum = (GEfloat(.21f)*image(x, y, 0, 0) + 
+				   GEfloat(.72f)*image(x, y, 0, 1) + 
+				   GEfloat(.07f)*image(x, y, 0, 2))/GEfloat(255.0f);
+			v = mMaxHeight * lum;
 			mx = std::fmax(mx, v);
 			mn = std::fmin(mn, v);
 			vals.push_back(v);
 		}
 	}
 
-	cout << "Min: " << mn << "  Max: " << mx << endl;
+	cout << "Multiplier: " << mMaxHeight << "  Min: " << mn << "  Max: " << mx << endl;
 
 	return vals;
 }
