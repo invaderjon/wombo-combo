@@ -20,7 +20,7 @@ HeightMap::HeightMap(string path, GEfloat maxHeight)
 	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals()
 {
 	loadImage(path);
-}
+} 
 
 HeightMap::~HeightMap()
 {

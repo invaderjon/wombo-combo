@@ -21,5 +21,5 @@ void main()
 	vec4 e = -(viewModel * pos);
 	eye = vec3(e.x, e.y, e.z);
 
-	gl_Position = pos;
+	gl_Position = mProjection * pos;
 }

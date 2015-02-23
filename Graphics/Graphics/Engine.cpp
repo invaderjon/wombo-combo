@@ -243,8 +243,7 @@ void Engine::render()
 	// clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// updates global matrices
-	glUniformMatrix4fv(mIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(glm::perspective(60.0f, mCamera->aspectRatio(), 1.0f, 100.0f)));
+	glUniformMatrix4fv(mIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 	// renders the heightmap

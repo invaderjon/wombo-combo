@@ -3,7 +3,7 @@
 using namespace graphics;
 
 Camera::Camera()
-	: IControllable(), mNearPlane(0.1f), mFarPlane(100.0f), mFOV(60.0f), mDOF(100)
+	: IControllable(), mNearPlane(0.1f), mFarPlane(100.0f), mFOV(45.0f), mDOF(100), mPosition(0, 0, 1)
 {
 }
 
@@ -307,7 +307,7 @@ Mat4 Camera::matrix() const
 /// <returns>The projection matrix.</returns>
 Mat4 Camera::projection() const
 {
-	return glm::perspective(mFOV, aspectRatio(), mNearPlane, mFarPlane);
+	return glm::perspective(mFOV, aspectRatio(), mNearPlane, mFarPlane) * glm::lookAt(mPosition, mPosition + forward(), mPosition + up());
 }
 
 /// <summary>
@@ -318,6 +318,7 @@ Mat4 Camera::view() const
 {
 	//cout << "Position: " << mPosition.x << ", " << mPosition.y << ", " << mPosition.z << endl;
 	return glm::translate(orientation(), -mPosition);
+	//return glm::lookAt(Vec3(0, 0, 2), Vec3(0, 0, 0), Vec3(0, 1, 0));
 }
 
 /// <summary>
@@ -338,7 +339,7 @@ Mat4 Camera::orientation() const
 /// <returns>The local y axis direction.</returns>
 Vec3 Camera::forward() const
 {
-	return mRotation * Vec3(0, 1, 0);
+	return mRotation * Vec3(0, 0, -1);
 }
 
 /// <summary>
@@ -347,7 +348,7 @@ Vec3 Camera::forward() const
 /// <returns>The local z axis direction.</returns>
 Vec3 Camera::up() const
 {
-	return mRotation * Vec3(0, 0, 1);
+	return mRotation * Vec3(0, 1, 0);
 }
 
 /// <summary>
