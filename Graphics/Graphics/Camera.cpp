@@ -100,7 +100,7 @@ void Camera::offsetRotation(const Mat4& rotation)
 void Camera::offsetYaw(GEfloat offset)
 {
 	// creates a quaternion for the rotation
-	Quat yawQuat = glm::angleAxis(offset, up());
+	Quat yawQuat = glm::angleAxis(-offset, up());
 
 	// offsets the rotation by the quaternion
 	offsetRotation(yawQuat);
@@ -113,7 +113,7 @@ void Camera::offsetYaw(GEfloat offset)
 void Camera::offsetPitch(GEfloat offset)
 {
 	// creates a quaternion for the rotation
-	Quat pitchQuat = glm::angleAxis(offset, right());
+	Quat pitchQuat = glm::angleAxis(-offset, right());
 
 	// offsets the rotation by the quaternion
 	offsetRotation(pitchQuat);
@@ -334,18 +334,36 @@ Mat4 Camera::orientation() const
 }
 
 /// <summary>
-/// Gets the forward vector for the camera.
+/// Gets the eye position vector for the camera.
 /// </summary>
-/// <returns>The local y axis direction.</returns>
-Vec3 Camera::forward() const
+/// <returns>The eye vector.</returns>
+Vec3 Camera::eye() const
+{
+	return mRotation * Vec3(0, 0, 0);
+}
+
+/// <summary>
+/// Gets the center position vector for the camera.
+/// </summary>
+/// <returns>The camera view center.</returns>
+Vec3 Camera::center() const
 {
 	return mRotation * Vec3(0, 0, -1);
 }
 
 /// <summary>
+/// Gets the forward vector for the camera.
+/// </summary>
+/// <returns>The camera view forward vector (untranslated).</returns>
+Vec3 Camera::forward() const
+{
+	return center() - eye();
+}
+
+/// <summary>
 /// Gets the up vector for the camera.
 /// </summary>
-/// <returns>The local z axis direction.</returns>
+/// <returns>The local z axis vector (untranslated).</returns>
 Vec3 Camera::up() const
 {
 	return mRotation * Vec3(0, 1, 0);
@@ -354,7 +372,7 @@ Vec3 Camera::up() const
 /// <summary>
 /// Gets the right vector for the camera.
 /// </summary>
-/// <returns>The local x axis direction.</returns>
+/// <returns>The local x axis vector (untranslated).</returns>
 Vec3 Camera::right() const
 {
 	return mRotation * Vec3(1, 0, 0);

@@ -39,13 +39,13 @@ namespace graphics
 		inline void setRotation(const Mat4& rotation); // sets the rotation from a given rotational matrix
 		inline void offsetRotation(const Quat& rotation); // offsets the rotation about an arbitrary axis
 		inline void offsetRotation(const Mat4& rotation); // offsets the rotation using a rotational matrix
-		void offsetYaw(GEfloat offset); // local yaw [around up vector]
-		void offsetPitch(GEfloat offset); // local pitch [around right vector]
-		void offsetRoll(GEfloat offset); // local roll [around forward vector]
-		void offsetXRot(GEfloat offset); // global rotation around x axis
-		void offsetYRot(GEfloat offset); // global rotation around y axis
-		void offsetZRot(GEfloat offset); // global rotation around z axis
-		void lookAt(Vec3 lookAt, Vec3 up); // orients the camera to look in the given direction
+		virtual void offsetYaw(GEfloat offset); // local yaw [around up vector]
+		virtual void offsetPitch(GEfloat offset); // local pitch [around right vector]
+		virtual void offsetRoll(GEfloat offset); // local roll [around forward vector]
+		virtual void offsetXRot(GEfloat offset); // global rotation around x axis
+		virtual void offsetYRot(GEfloat offset); // global rotation around y axis
+		virtual void offsetZRot(GEfloat offset); // global rotation around z axis
+		virtual void lookAt(Vec3 lookAt, Vec3 up); // orients the camera to look in the given direction
 		
 		// field of view (zoom)
 		GEfloat FOV() const;
@@ -85,9 +85,11 @@ namespace graphics
 		Mat4 orientation() const;
 
 		// local axes
-		Vec3 forward() const;
-		Vec3 up() const; 
-		Vec3 right() const;
+		virtual Vec3 eye() const;
+		virtual Vec3 center() const;
+		virtual Vec3 forward() const;
+		virtual Vec3 up() const; 
+		virtual Vec3 right() const;
 	private:
 		Vec3 mPosition; // cartensian position in 3D space
 		Quat mRotation; // the orienation vector
