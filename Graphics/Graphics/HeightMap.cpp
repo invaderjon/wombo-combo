@@ -78,7 +78,7 @@ void HeightMap::render(ShaderIndices* indices)
 
 	// draws height map
 	glBindVertexArray(mVAO);
-	glDrawElements(GL_TRIANGLES, mFaces.size() * 3 * sizeof(Vert), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mFaces.size() * 3, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
