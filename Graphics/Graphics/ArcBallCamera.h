@@ -7,7 +7,7 @@
 
 #define GE_MIN_RADIUS GEfloat(0.0001f) // max zoom in req is 50
 #define GE_ZOOM_SCALE GEfloat(5.0f)
-#define GE_ZOOM_PIXEL_SCALE GEfloat(4.0f)
+#define GE_ZOOM_PIXEL_SCALE GEfloat(10.0f)
 #define GE_MOTION_NONE 0
 #define GE_MOTION_ROTATE 1
 #define GE_MOTION_TRANSLATE 2

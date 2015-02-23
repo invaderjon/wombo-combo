@@ -257,7 +257,7 @@ void ArcBallCamera::onScroll(double xoffset, double yoffset)
 {
 	// only zoom if not already controlling viewport
 	if (mMotionType == GE_MOTION_NONE)
-		zoomView(yoffset);
+		zoomView(GEfloat(yoffset));
 }
 
 // View Controls
@@ -294,8 +294,8 @@ void ArcBallCamera::rotateView(Cursor init, Cursor term)
 	dp.y /= height();
 
 	// calculates rotations
-	GEfloat yaw = 2*M_PI * dp.x;
-	GEfloat pitch = 2*M_PI * dp.y;
+	GEfloat yaw = GEfloat(2*M_PI * dp.x);
+	GEfloat pitch = GEfloat(2*M_PI * dp.y);
 	
 	// rotates the camera
 	offsetYaw(-yaw);

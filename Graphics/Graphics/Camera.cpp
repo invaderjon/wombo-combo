@@ -3,7 +3,7 @@
 using namespace graphics;
 
 Camera::Camera()
-	: IControllable(), mNearPlane(0.1f), mFarPlane(100.0f), mFOV(45.0f), mDOF(100)
+	: IControllable(), mNearPlane(0.001f), mFarPlane(100.0f), mFOV(45.0f), mDOF(100)
 {
 }
 
