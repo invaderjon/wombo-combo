@@ -41,6 +41,7 @@ namespace graphics
 		void render();
 		void measure();
 		static void resize(GLFWwindow* window, GEint width, GEint height);
+		static void onBufferResized(GLFWwindow* window, GEint width, GEint height);
 		static void onErrorReceived(int error, const char* description);
 
 		char* title = DEFAULT_WINDOW_TITLE;
