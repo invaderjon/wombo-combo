@@ -180,20 +180,40 @@ void HeightMap::calcMesh(vector<Tri>& out, Vert* vertices, GEuint width, GEuint 
 	// and [r, c + 1], [r + 1, c], [r + 1, c + 1] triangles
 	GEuint row, col;
 	GEuint a, b, c;
-	Vec3 u, v;
+	GEuint t;
 
 	for (row = 0; GEint(row) < GEint(height - 1); row++)
 	{
 		for (col = 0; GEint(col) < GEint(width - 1); col++)
 		{
+			// determines triangle vertices
 			a = row * width + col;
 			b = row * width + col + 1;
 			c = (row + 1) * width + col;
+
+			// ensures triangle is CCW
+			if (calcFaceNormal(vertices[a].position, vertices[b].position, vertices[c].position).z < 0) {
+				t = b;
+				b = c;
+				c = t;
+			}
+
+			// adds the triangle to the list
 			out.push_back(Tri(a, b, c));
 
+			// dtermines triangle vertices
 			a = row * width + col + 1;
 			b = (row + 1) * width + col;
 			c = (row + 1) * width + col + 1;
+
+			// ensures triangle is CCW
+			if (calcFaceNormal(vertices[a].position, vertices[b].position, vertices[c].position).z < 0) {
+				t = b;
+				b = c;
+				c = t;
+			}
+
+			// adds the triangle to the list
 			out.push_back(Tri(a, b, c));
 		}
 	}
@@ -219,7 +239,6 @@ void HeightMap::calcVertexNormals(vector<Tri>& tris, vector<Vec3>& normals, vect
 {
 	GEuint i;
 	vector<GEint> counts(vertices.size());
-	Vec3 fNorm;
 	Vert* verts = &vertices[0];
 	GEint* c = &counts[0];
 
@@ -247,7 +266,11 @@ void HeightMap::calcVertexNormals(vector<Tri>& tris, vector<Vec3>& normals, vect
 
 	// averages each calculated vertex norm
 	for (i = 0; i < counts.size(); i++)
+	{
 		verts[i].normal = glm::normalize(verts[i].normal);
+		if (glm::dot(verts[i].normal, verts[i].position) < GEfloat(0.0))
+			verts[i].normal = verts[i].normal;
+	}
 }
 
 Vec3 HeightMap::calcFaceNormal(Vec3& a, Vec3& b, Vec3& c)
