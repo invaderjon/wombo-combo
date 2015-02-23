@@ -84,6 +84,7 @@ int Engine::initGLFW()
 	glfwSetScrollCallback(mWindow, InputManager::onScroll);
 	glfwSetDropCallback(mWindow, InputManager::onFileDropped);
 	glfwSetWindowSizeCallback(mWindow, Engine::resize);
+	glfwSetFramebufferSizeCallback(mWindow, Engine::onBufferResized);
 
 	// sets up rendering options
 	glfwSwapInterval(1);
@@ -257,13 +258,16 @@ void Engine::resize(GLFWwindow* window, GEint width, GEint height)
 {
 }
 
+void Engine::onBufferResized(GLFWwindow* window, GEint width, GEint height)
+{
+	glViewport(0, 0, width, height);
+}
+
 void Engine::measure()
 {
 	// updates the frame size
 	glfwGetFramebufferSize(mWindow, &width, &height);
-	glViewport(0, 0, width, height);
-	ratio = width / (float)height;
-	mCamera->setSize(width, height);
+	mCamera->setSize(GEfloat(width), GEfloat(height));
 	
 }
 
