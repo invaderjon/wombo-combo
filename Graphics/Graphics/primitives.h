@@ -22,6 +22,7 @@ namespace graphics
 	typedef GLbyte GEbyte;
 
 	// unsigned ints
+	typedef unsigned long long GEulong;
 	typedef GLuint GEuint;
 	typedef GLushort GEushort;
 	typedef GLubyte GEubyte;

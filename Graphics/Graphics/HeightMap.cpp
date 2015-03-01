@@ -5,20 +5,24 @@ using namespace graphics;
 HeightMap::HeightMap(GEfloat maxHeight)
 	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals()
 {
-	GEfloat dif = 0xE7 / GEfloat(0xFF);
+	GEfloat dif = .7;
 	GEfloat amb = 0x10 / GEfloat(0xFF);
 	GEfloat spec = 1.0f;
 	GEfloat shin = 0.5f;
 
-	mMaterial.diffuse = Vec3(dif);
-	mMaterial.ambient = Vec3(amb);
-	mMaterial.specular = Vec3(spec);
+	mMaterial.diffuse = Vec3(.7f, .7f, .7f);
+	mMaterial.ambient = Vec3(.1f, .1f, .1f);
+	mMaterial.specular = Vec3(1.0f, 1.0f, 1.0f);
 	mMaterial.shininess = shin;
 }
 
 HeightMap::HeightMap(string path, GEfloat maxHeight)
 	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals()
 {
+	grass = new Texture("Textures/grass.bmp", GL_REPEAT, 0);
+	dirt = new Texture("Textures/dirt.bmp", GL_REPEAT, 1);
+	rock = new Texture("Textures/rock.bmp", GL_REPEAT, 2);
+	snow = new Texture("Textures/snow.bmp", GL_REPEAT, 3);
 	loadImage(path);
 } 
 
@@ -62,23 +66,46 @@ void HeightMap::update(Mat4* view)
 {
 	mModelMatrix = Mat4();
 	mModelMatrix[0][0] = mModelMatrix[1][1] = mModelMatrix[2][2] = mModelMatrix[3][3] = 1.0f;
-	Mat3 modelView = Mat3(*view * mModelMatrix);
+	Mat3 modelView = Mat3(mModelMatrix * *view);
 	mNormalMatrix = glm::inverseTranspose(modelView);
 }
 
 void HeightMap::render(ShaderIndices* indices)
 {
 	// updates matrices
-	glUniformMatrix4fv(indices->matrices.view, 1, GL_FALSE, glm::value_ptr(mModelMatrix));
+	glUniformMatrix4fv(indices->matrices.model, 1, GL_FALSE, glm::value_ptr(mModelMatrix));
 	glUniformMatrix3fv(indices->matrices.normal, 1, GL_FALSE, glm::value_ptr(mNormalMatrix));
+
+	// sets texture uniforms
+	glUniform1i(indices->heightMap.grassUniform, grass->id());
+	glUniform1i(indices->heightMap.dirtUniform, dirt->id());
+	glUniform1i(indices->heightMap.rockUniform, rock->id());
+	glUniform1i(indices->heightMap.snowUniform, snow->id());
+
+	// grass
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, grass->handle());
+
+	// dirt
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, dirt->handle());
+
+	// rock
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, rock->handle());
+
+	// snow
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, snow->handle());
 	
 	// loads material
-	glBindBuffer(GL_UNIFORM_BUFFER, indices->material.buffer);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(Material), &mMaterial, GL_DYNAMIC_DRAW);
+	/*glBindBuffer(GL_UNIFORM_BUFFER, indices->material.buffer);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Material), &mMaterial);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);*/
 
 	// draws height map
 	glBindVertexArray(mVAO);
-	glDrawElements(GL_TRIANGLES, mFaces.size() * 3, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mFaces.size()*3, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
@@ -158,7 +185,7 @@ void HeightMap::genVertices(vector<Vert>& out, GEfloat* zCoords, GEuint width, G
 	GEdouble yIncr = 2 * (height / GEdouble(largest * largest));
 	GEuint r, c;
 
-	cout << "Xincr: " << xIncr << "  Yinc: " << yIncr;
+	cout << "Xincr: " << xIncr << "  Yinc: " << yIncr << endl;
 
 	for (r = 0; r < height; r++)
 	{

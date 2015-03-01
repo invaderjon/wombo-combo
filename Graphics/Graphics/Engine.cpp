@@ -152,6 +152,11 @@ void Engine::initGL() {
 	// sets depth test mode
 	glDepthFunc(GL_LESS);
 
+	// textures
+	glEnable(GL_TEXTURE_2D);
+
+	glClearColor(.5f, .5f, .5f, 1.0f);
+
 	// gets attribute indices
 	mIndices.attrs.position = glGetAttribLocation(program.id(), "vPosition");
 	mIndices.attrs.normal = glGetAttribLocation(program.id(), "vNormal");
@@ -162,15 +167,27 @@ void Engine::initGL() {
 	mIndices.matrices.projection = glGetUniformLocation(program.id(), "mProjection");
 	mIndices.matrices.normal = glGetUniformLocation(program.id(), "mNormal");
 
-	// sets up the material block
-	GEuint block = glGetUniformBlockIndex(program.id(), "Material");
-	glUniformBlockBinding(program.id(), block, mIndices.material.binding);
+	// gets texture indices
+	mIndices.heightMap.grassUniform = glGetUniformLocation(program.id(), "grassTex");
+	mIndices.heightMap.dirtUniform = glGetUniformLocation(program.id(), "dirtTex");
+	mIndices.heightMap.rockUniform = glGetUniformLocation(program.id(), "rockTex");
+	mIndices.heightMap.snowUniform = glGetUniformLocation(program.id(), "snowTex");
+	glProgramUniform1i(program.id(), mIndices.heightMap.grassUniform, 0);
+	glProgramUniform1i(program.id(), mIndices.heightMap.dirtUniform, 1);
+	glProgramUniform1i(program.id(), mIndices.heightMap.rockUniform, 2);
+	glProgramUniform1i(program.id(), mIndices.heightMap.snowUniform, 3);
 	
-	// creates buffer for material block
+	// sets up the material block
+	/*mIndices.material.binding = 10000;
+	mIndices.material.index = glGetUniformBlockIndex(program.id(), "MaterialBlock");
 	mIndices.material.buffer = Buffers::nextBuffer();
+	glUniformBlockBinding(program.id(), mIndices.material.index, mIndices.material.binding);
 	glGenBuffers(1, &mIndices.material.buffer);
 	glBindBuffer(GL_UNIFORM_BUFFER, mIndices.material.buffer);
-	glBindBufferBase(GL_UNIFORM_BUFFER, mIndices.material.binding, mIndices.material.buffer);
+	glBindBufferBase(GL_UNIFORM_BUFFER, mIndices.material.binding, mIndices.material.buffer);*/
+	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	
 }
 
 void Engine::initEngine()
@@ -182,53 +199,35 @@ void Engine::initEngine()
 	mCamera = new ArcBallCamera();
 	mInputManager->addListener(mCamera);
 
-	// test drawing
-	vao = 69;
-	test = 42;
-
-	// test vetex array
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	data = new Vert[3];
-	data[0] = Vert(Vec3(-0.6f, -0.4f, 0.f), glm::normalize(Vec3(0.0f, 1.0f, 0.0f)));
-	data[1] = Vert(Vec3(0.6f, -0.4f, 0.f), glm::normalize(Vec3(0.0f, 1.0f, 0.0f)));
-	data[2] = Vert(Vec3(0.f, 0.6f, 0.f), glm::normalize(Vec3(0.0f, 1.0f, 0.0f)));
-
-	// creates buffers
-	glGenBuffers(1, &test);
-	glBindBuffer(GL_ARRAY_BUFFER, test);
-	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(Vert), data, GL_STATIC_DRAW);
-
-	// sets attributes
-	glVertexAttribPointer(mIndices.attrs.position, 3, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
-	glVertexAttribPointer(mIndices.attrs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(3 * sizeof(GEfloat)));
-
-	// enables attributes
-	glEnableVertexAttribArray(mIndices.attrs.position);
-	glEnableVertexAttribArray(mIndices.attrs.normal);
-
-	// unbinds vao
-	glBindVertexArray(0);
-
 	// test height map
 	loadHeightMap();
 }
 
 void Engine::loadHeightMap()
 {
-	mHeightMap = new HeightMap("map.bmp");
+	mHeightMap = new HeightMap("Textures/map.bmp");
 	mHeightMap->push(mIndices.attrs);
 }
 
 void Engine::loop()
 {
+
+	chrono::time_point<chrono::high_resolution_clock> start, end;
+	chrono::nanoseconds duration;
+	long long diff;
 	while (!glfwWindowShouldClose(mWindow))
 	{
+		start = chrono::high_resolution_clock::now();
 		measure();
 		update();
 		render();
 		glfwPollEvents();
+		end = chrono::high_resolution_clock::now();
+		duration = chrono::duration_cast<chrono::nanoseconds>(end - start);
+		diff = (TARGET_FRAME_TIME - duration.count());
+		if (diff > 0) {
+			Sleep(diff / 1000000);
+		}
 	}
 }
 
@@ -243,9 +242,9 @@ void Engine::render()
 {
 	// clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glUniformMatrix4fv(mIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
 
 	// renders the heightmap
 	mHeightMap->render(&mIndices);

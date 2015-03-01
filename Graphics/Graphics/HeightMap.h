@@ -10,6 +10,8 @@
 #include "Graphics.h"
 #include "IRenderable.h"
 #include "Buffers.h"
+#include "ShaderStructs.h"
+#include "Texture.h"
 
 using namespace std; 
 using namespace cimg_library;
@@ -56,5 +58,9 @@ namespace graphics
 		vector<Vert> mVertices;
 		vector<Tri>  mFaces;
 		vector<Vec3> mFaceNormals;
+		Texture* grass;
+		Texture* dirt;
+		Texture* rock;
+		Texture* snow;
 	};
 }

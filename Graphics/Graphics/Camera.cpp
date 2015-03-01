@@ -125,5 +125,5 @@ const Mat4 Camera::matrix() const
 
 const Mat4 Camera::projection() const
 {
-	return glm::perspectiveFov(mFOV, mWidth, mHeight, mNearPlane, mFarPlane) * view();
+	return glm::perspectiveFov(mFOV, mWidth, mHeight, mNearPlane, mFarPlane);
 }

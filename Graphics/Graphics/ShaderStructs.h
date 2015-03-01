@@ -37,25 +37,41 @@ namespace graphics
 	typedef struct sMaterial
 	{
 		Vec3 diffuse;
+		GEfloat pada;
 		Vec3 ambient;
+		GEfloat padb;
 		Vec3 specular;
 		GEfloat shininess;
 
 		sMaterial() : diffuse(), ambient(), specular(), shininess(0.0f) { }
 	}				Material;
 
+	typedef struct sHeightMapTexIds
+	{
+		GEuint grass;
+		GEuint dirt;
+		GEuint rock;
+		GEuint snow;
+		GEuint grassUniform;
+		GEuint dirtUniform;
+		GEuint rockUniform;
+		GEuint snowUniform;
+	}				HeightMapTexIds;
+
 	typedef struct sUniformBlock
 	{
+		GEuint index;
 		GEuint binding;
 		GEuint buffer;
 
-		sUniformBlock() : binding(MaterialBinding), buffer(0) { }
+		sUniformBlock() : index(0), binding(MaterialBinding), buffer(0) { }
 	}				UniformBlock;
 
 	typedef struct sShaderIndices
 	{
 		Attributes attrs;
 		MatricesIndices matrices;
+		HeightMapTexIds heightMap;
 		UniformBlock material;
 	}				ShaderIndices;
 }

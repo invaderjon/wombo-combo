@@ -1,6 +1,9 @@
 #pragma once
 
+#include <chrono>
 #include <sstream>
+#include <string>
+#include <cimg\CImg.h>
 #include "Graphics.h"
 #include "InputManager.h"
 #include "InputPrinter.h"
@@ -10,6 +13,11 @@
 #include "Camera.h"
 #include "ArcBallCamera.h"
 #include "Buffers.h"
+#include "Texture.h"
+
+#define TARGET_FRAME_TIME 16666667
+
+using namespace cimg_library;
 
 //
 // Title: Engine
@@ -53,8 +61,5 @@ namespace graphics
 		Camera* mCamera;
 		ShaderIndices mIndices;
 		HeightMap* mHeightMap;
-		GEuint vao;
-		GEuint test;
-		Vert* data;
 	};
 }
