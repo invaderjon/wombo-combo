@@ -82,11 +82,15 @@
     <ClCompile Include="IRenderable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Matrices.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SubMesh.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +118,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputPrinter.h" />
     <ClInclude Include="IRenderable.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Platform.h" />
@@ -121,8 +127,10 @@
     <ClInclude Include="Primitives.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderStructs.h" />
+    <ClInclude Include="SubMesh.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
