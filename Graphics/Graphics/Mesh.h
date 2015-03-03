@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IIdentifiable.h"
 #include "Graphics.h"
 #include "Resources.h"
 #include "SubMesh.h"
@@ -10,26 +11,17 @@
 namespace graphics
 {
 	class Mesh
+		: public IIdentifiable
 	{
 	private:
-		// global
-		static GEuint sCurId;
-		static GEuint nextId();
-
-		// instance
-		GEuint			mId;			// Unique ID
 		Res				mVerts;			// Vertex Data Resource Handle
 		SubMesh*		mSubMeshes;		// Stores Info regarding the meshes
-		
-		// TODO: implement with resource manager
-		//Resources* res;
-		//GEuint mDataHandle; // handle that points to data
 	public:
 		Mesh();
+		Mesh(Res verts, SubMesh* subMeshes);
 		~Mesh();
 
 		// accessors
-		inline GEuint			id() const;
 		inline Res				vertices() const;
 		inline void				vertices(Res verts);
 		inline SubMesh*			submeshes()	const;

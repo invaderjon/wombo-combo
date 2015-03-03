@@ -3,6 +3,7 @@
 using namespace graphics;
 
 Material::Material()
+	: IIdentifiable()
 {
 }
 

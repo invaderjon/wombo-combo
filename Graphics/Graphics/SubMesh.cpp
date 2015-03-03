@@ -2,11 +2,13 @@
 
 using namespace graphics;
 
-SubMesh::SubMesh() : mMaterial(), mIndices(GE_RES_INVALID)
+SubMesh::SubMesh() : 
+	IIdentifiable(), mMaterial(), mIndices(GE_RES_INVALID)
 {
 }
 
-SubMesh::SubMesh(Res indices, const Material& mat) : mIndices(indices), mMaterial(mat)
+SubMesh::SubMesh(Res indices, const Material& mat) : 
+	IIdentifiable(), mIndices(indices), mMaterial(mat)
 {
 }
 

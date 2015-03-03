@@ -13,14 +13,14 @@ namespace graphics
 	class Texture
 	{
 	private:
-		GEuint mId;
-		GEuint mHandle;
+		GEuint	mId;
+		GEuint	mHandle;
 	public:
 		Texture(string path, GEuint wrapMode, GEuint tex);
 		~Texture();
 
-		GEuint handle();
-		GEuint id();
+		GEuint handle() const;
+		GEuint id() const;
 	};
 
 }

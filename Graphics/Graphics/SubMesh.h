@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IIdentifiable.h"
 #include "Resources.h"
 #include "Texture.h"
 #include "Material.h"
@@ -8,6 +9,7 @@ namespace graphics
 {
 
 	class SubMesh
+		: public IIdentifiable
 	{
 	private:
 		Res			mIndices;	// Index Data Resource Handle

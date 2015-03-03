@@ -25,45 +25,36 @@
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{8de718a3-8bbd-45b7-a4b5-01ce78f786f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{b21e4d1e-dee2-470b-9180-2e95a438ae0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interfaces">
+      <UniqueIdentifier>{106c9287-f8bd-4eed-8cf2-59e04ce86e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Unorganized">
+      <UniqueIdentifier>{025290fd-d98e-4a08-99b9-1cf2af6b58d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Unorganized">
+      <UniqueIdentifier>{7064bb25-feb9-4a18-97d1-bcac4c1afe97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Allocators">
+      <UniqueIdentifier>{ba95ecde-3993-4cf5-9dbd-5a66ef04cc50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{644acc46-bed1-494c-9b4d-d1a4ed53000c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{cee5a71a-5ba3-487d-a957-7feb717bbaa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders\Fragment">
+      <UniqueIdentifier>{a4f26d7d-31c0-435c-b1d5-e5d035815284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders\Vertex">
+      <UniqueIdentifier>{5d8f7c10-8a6e-43a1-9021-01614f55643d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HeightMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IControllable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputPrinter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrices.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ArcBallCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Program.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IRenderable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Buffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
@@ -71,12 +62,6 @@
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Clock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files\Resources</Filter>
@@ -93,75 +78,69 @@
     <ClCompile Include="SubMesh.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="IIdentifiable.cpp">
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcBallCamera.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffers.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="IRenderable.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="IControllable.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="InputPrinter.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrices.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="glew32.dll">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Misc</Filter>
     </None>
     <None Include="glfw3.dll">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Misc</Filter>
     </None>
     <None Include="sh_frag_330.glsl">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders\Fragment</Filter>
     </None>
     <None Include="sh_vert_330.glsl">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shaders\Vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HeightMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IControllable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputPrinter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Primitives.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcBallCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Program.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderStructs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Buffers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
@@ -169,12 +148,6 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Clock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Header Files\Resources</Filter>
@@ -191,16 +164,76 @@
     <ClInclude Include="SubMesh.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="IIdentifiable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStructs.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcBallCamera.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffers.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Clock.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="IControllable.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="InputPrinter.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitives.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>Header Files\Unorganized</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="australia.bmp">
+      <Filter>Source Files\Misc</Filter>
+    </Image>
     <Image Include="hub_world_1.png">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Misc</Filter>
     </Image>
     <Image Include="map.bmp">
-      <Filter>Source Files</Filter>
-    </Image>
-    <Image Include="australia.bmp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Misc</Filter>
     </Image>
   </ItemGroup>
 </Project>

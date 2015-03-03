@@ -2,19 +2,14 @@
 
 using namespace graphics;
 
-GEuint Mesh::sCurId = -1;
-
-Mesh::Mesh() : mId(nextId()), mVerts(GE_RES_INVALID)
+Mesh::Mesh()
+	: IIdentifiable(), mVerts(GE_RES_INVALID), mSubMeshes(NULL)
 {
 }
 
-Mesh::~Mesh()
+Mesh::Mesh(Res verts, SubMesh* subMeshes)
+	: IIdentifiable(), mVerts(verts), mSubMeshes(subMeshes)
 {
-}
-
-GEuint Mesh::id() const
-{
-	return mId;
 }
 
 Res Mesh::vertices() const
@@ -35,9 +30,4 @@ SubMesh* Mesh::submeshes() const
 void Mesh::submeshes(SubMesh* subs)
 {
 	mSubMeshes = subs;
-}
-
-GEuint Mesh::nextId()
-{
-	return ++sCurId;
 }

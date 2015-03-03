@@ -11,7 +11,6 @@ Entity::Entity(Mesh* mesh) : mMesh(mesh)
 
 }
 
-
 Entity::~Entity()
 {
 }

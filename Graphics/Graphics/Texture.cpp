@@ -39,12 +39,12 @@ Texture::~Texture()
 	glDeleteTextures(1, &mId);
 }
 
-GEuint Texture::handle()
+GEuint Texture::handle() const
 {
 	return mHandle;
 }
 
-GEuint Texture::id()
+GEuint Texture::id() const
 {
 	return mId;
 }
