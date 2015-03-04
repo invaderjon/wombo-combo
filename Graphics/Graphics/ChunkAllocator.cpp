@@ -12,7 +12,7 @@ ChunkAllocator::ChunkAllocator(memsize chunkSize, GEuint chunks)
 	mBlock = (GEbyte*)std::malloc(chunkSize*chunks);
 
 	// add the initial chunk
-	mFree.push_back(chunk(mBlock, chunks));
+	mFree.push_back(chunk(chunks, mBlock));
 }
 
 ChunkAllocator::~ChunkAllocator()
@@ -28,7 +28,7 @@ ChunkAllocator::~ChunkAllocator()
 void* ChunkAllocator::malloc(memsize msize)
 {
 	// calculates padded size
-	GEuint psize = msize + sizeof(GEuint);
+	GEuint psize = msize + sizeof(memsize);
 
 	chunk c;
 	// iterates through free blocks to search for space
@@ -48,7 +48,7 @@ void* ChunkAllocator::malloc(memsize msize)
 		return NULL;
 
 	// calculates the number of extra bytes that will remain
-	GEuint extra = psize % mChunkSize;
+	GEuint extra = (mChunkSize - (psize % mChunkSize)) % mChunkSize;
 
 	// calculates number of chunks necessary
 	GEuint chunks = (psize + extra) / mChunkSize;
@@ -57,7 +57,7 @@ void* ChunkAllocator::malloc(memsize msize)
 	GEuint rem = c.chunks - chunks;
 
 	// used chunk
-	chunk used = chunk(chunks, c.data);
+	chunk used = chunk(chunks, c.data, extra);
 
 	// removes the old chunk
 	mFree.remove(c);
@@ -68,13 +68,13 @@ void* ChunkAllocator::malloc(memsize msize)
 		// free chunk
 		GEbyte* offset = c.data + (chunks * mChunkSize);
 		chunk fchunk = chunk(rem, offset);
-		mFree.push_back(fchunk);
+		add(fchunk);
 	}
 
 	// determines if there is extra memory to use
 	if (extra > 0)
 	{
-		GEbyte* offset = c.data + (mChunkSize + (used.chunks - 1));
+		GEbyte* offset = c.data + (mChunkSize * (used.chunks - 1));
 		chunk tmp = chunk(offset, extra);
 		mTmp.push_back(tmp);
 	}
@@ -101,28 +101,27 @@ void* ChunkAllocator::malloc_tmp(memsize msize)
 		throw new std::runtime_error("Temp size cannot be larger than the block size!");
 	
 	// iterates through allocated blocks to search for space
-	chunk c;
+	chunk* c = NULL;
 	for (auto iter = mTmp.begin();
 		iter != mTmp.end();
 		++iter)
 	{
 		// finds a block that fits while minimizing remaining bytes
-		if (msize < (*iter).free && (c.free == 0 || (*iter).free < c.free))
+		if (msize < (*iter).free && (c == NULL || (*iter).free < c->free))
 		{
-			c = (*iter);
+			c = &(*iter);
 		}
 	}
 
 	// no free memory could be found
-	if (c.free = NULL)
+	if (c == NULL)
 		return NULL;
 
 	// calculates the free region
-	GEbyte* reg = static_cast<GEbyte*>(c.data);
-	reg = reg + mChunkSize - c.free;
+	GEbyte* reg = static_cast<GEbyte*>(c->data) + mChunkSize - c->free;
 	
 	// updates the remaining free blocks
-	c.free -= msize;
+	c->free -= msize;
 
 	// returns the pointer to the free region
 	return reg;
@@ -137,12 +136,21 @@ void ChunkAllocator::free(void* obj)
 	// extracts size info
 	void* ptr = (GEbyte*)obj - sizeof(memsize);
 	memsize msize = *(memsize*)(ptr);
-	memsize padded = msize + sizeof(memsize);
-	memsize used = padded + (padded % mChunkSize);
+	memsize psize = msize + sizeof(memsize);
+	memsize extra = (mChunkSize - (psize % mChunkSize)) % mChunkSize;
+	memsize used = psize + extra;
 	memsize chunks = used / mChunkSize;
 
 	// determines which chunk region is being released
 	chunk c = chunk(chunks, ptr);
+
+	// remove the tmp block if it exists
+	if (extra > 0)
+	{
+		GEbyte* offset = c.data + (mChunkSize * (c.chunks - 1));
+		chunk tmp = chunk(offset, extra);
+		mTmp.remove(tmp);
+	}
 
 	// adds chunk to free
 	add(c);
@@ -156,7 +164,7 @@ void ChunkAllocator::add(const chunk& c)
 	// adds chunk to list of free chunks in order of position in memory
 	auto iter = mFree.begin();
 	for (;
-		c.data > (*iter).data && iter != mFree.end();
+		iter != mFree.end() && c.data > (*iter).data;
 		++iter)
 		;
 	// inserts the item
@@ -165,37 +173,37 @@ void ChunkAllocator::add(const chunk& c)
 
 void ChunkAllocator::merge()
 {
-	int merged = 0;
+	// search for contiguous regions
+	int contiguous = 0;
+	auto x = mFree.begin();
+	auto y = mFree.begin();
+	if (y != mFree.end())
+		y++;
 
-	// merges all contiguous blocks of memory
-	do
+	// so long as we haven't finished checkking continue
+	while (y != mFree.end())
 	{
-		// search for contiguous regions
-		int contiguous = 0;
-		auto c1 = mFree.begin();
-		auto c2 = mFree.begin();
-		c2++;
-		for (; c2 != mFree.end() && !contiguous; ++c1, ++c2)
-		{
-			// checks to see if they're contiguous
-			contiguous = ((*c1).data + ((*c1).chunks * mChunkSize)) == (*c2).data;
-		}
+		// checks to see if they're contiguous
+		contiguous = ((*x).data + ((*x).chunks * mChunkSize)) == (*y).data;
 
+		// if they were contiguous merge them and
 		if (contiguous)
 		{
 			// merge two regions
-			(*c1).chunks += (*c2).chunks;
+			(*x).chunks += (*y).chunks;
 
 			// remove second region
-			mFree.remove(*c2);
+			y = mFree.erase(y);
 		}
-
-		// update merged
-		merged = contiguous;
-	} while (merged);
+		else // neither were contiguous so just move on
+		{
+			x++;
+			y++;
+		}
+	}
 }
 
-memsize ChunkAllocator::size()
+memsize ChunkAllocator::size() const
 {
 	return mSize;
 }

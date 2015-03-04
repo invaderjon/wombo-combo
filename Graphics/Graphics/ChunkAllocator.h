@@ -2,10 +2,15 @@
 #include <list>
 #include "IAllocator.h"
 
+#define KB(b) 1024*b
+#define MB(b) 1048576*b
+#define GB(b) 1073741824*b
+
 namespace graphics
 {
 	// Allocator that reserves memory in continguous chunks.
-	// Best performance when sizeof(stored data) < chunk size - sizeof(uint)
+	// Best performance when sizeof(stored data) <= chunk size - sizeof(uint)
+	// Worst performance when sizeof(stored data) is much greater than chunk size
 	
 	class ChunkAllocator :
 		public IAllocator < void* >
@@ -23,8 +28,9 @@ namespace graphics
 			// [only meaningful for last chunk in continguous block]
 			GEuint		free;
 			s_chunk() : chunks(0), data(NULL), free(0) { }
-			s_chunk(GEuint count, void* dat) : chunks(count), data((GEbyte*)dat) { }
-			s_chunk(void* dat, GEuint fre) : data((GEbyte*)dat), free(fre) { }
+			s_chunk(GEuint count, void* dat) : chunks(count), data((GEbyte*)dat), free(0) { }
+			s_chunk(void* dat, GEuint fre) : chunks(0), data((GEbyte*)dat), free(fre) { }
+			s_chunk(GEuint count, void* dat, GEuint fre) : chunks(count), data((GEbyte*)dat), free(fre) { }
 
 			inline bool operator==(const s_chunk& rhs)
 			{
@@ -53,7 +59,7 @@ namespace graphics
 		void*	malloc(memsize size);		
 		void*	malloc_tmp(memsize size);
 		void	free(void* obj);
-		memsize size();
+		memsize size() const;
 	};
 
 }
