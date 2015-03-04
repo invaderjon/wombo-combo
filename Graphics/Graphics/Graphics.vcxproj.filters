@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Resources">
       <UniqueIdentifier>{472e6dca-61c6-4dc2-b52d-d65848495bd5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Resources">
-      <UniqueIdentifier>{8de718a3-8bbd-45b7-a4b5-01ce78f786f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{b21e4d1e-dee2-470b-9180-2e95a438ae0b}</UniqueIdentifier>
     </Filter>
@@ -51,6 +48,24 @@
     </Filter>
     <Filter Include="Source Files\Shaders\Vertex">
       <UniqueIdentifier>{5d8f7c10-8a6e-43a1-9021-01614f55643d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GL">
+      <UniqueIdentifier>{f5bd822d-12a0-4df3-8b4d-b77535086a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL">
+      <UniqueIdentifier>{6715b0fc-0082-4526-98fa-12d6c9b0b81a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Allocators">
+      <UniqueIdentifier>{10baf666-7e0c-48ec-9820-7a56fb6b6f69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Standard">
+      <UniqueIdentifier>{22ac2a76-ae6d-423c-8b09-47e1063316d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Standard">
+      <UniqueIdentifier>{98ab7070-5eaf-439c-94bb-75a0cac2e334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{8de718a3-8bbd-45b7-a4b5-01ce78f786f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,13 +130,25 @@
       <Filter>Source Files\Unorganized</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
-    <ClCompile Include="Program.cpp">
-      <Filter>Source Files\Unorganized</Filter>
+      <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Unorganized</Filter>
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolAllocator.cpp">
+      <Filter>Source Files\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="StackAllocator.cpp">
+      <Filter>Source Files\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="DSStackAllocator.cpp">
+      <Filter>Source Files\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkAllocator.cpp">
+      <Filter>Source Files\Allocators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,12 +194,6 @@
     <ClInclude Include="IIdentifiable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderStructs.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
     <ClInclude Include="ArcBallCamera.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
@@ -212,17 +233,38 @@
     <ClInclude Include="IRenderable.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
     <ClInclude Include="Platform.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
     <ClInclude Include="Primitives.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderStructs.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
     <ClInclude Include="Program.h">
-      <Filter>Header Files\Unorganized</Filter>
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="IAllocator.h">
+      <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolAllocator.h">
+      <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="StackAllocator.h">
+      <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="DSStackAllocator.h">
+      <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkAllocator.h">
+      <Filter>Header Files\Allocators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

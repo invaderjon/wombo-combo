@@ -34,7 +34,7 @@ vec3 heightMapDiffuse(vec3 N, vec3 P)
 
 	// planar uv
 	vec2 uv = vec2(TP.x, TP.y);
-	vec3 grass = texture(grassTex, uv).rgg;		//vec3(129.0/255.0, 178.0/255.0, 34.0/255.0);
+	vec3 grass = texture(grassTex, uv).rgb;		//vec3(129.0/255.0, 178.0/255.0, 34.0/255.0);
 	vec3 dirt = texture(dirtTex, uv).rgb;		//vec3(153.0/255.0, 155.0/255.0, 142.0/255.0);
 	vec3 snow =  texture(snowTex, uv).rgb;		//vec3(220.0/255.0, 226.0/255.0, 229.0/255.0);
 
