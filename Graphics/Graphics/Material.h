@@ -5,7 +5,7 @@
 namespace graphics
 {
 	class Material
-		: public IIdentifiable
+		: public IIdentifiable, IResource
 	{
 	public:
 		Material();

@@ -1,0 +1,10 @@
+<material name="heighmap">
+		<color name="diffuse" value="#FFFFFF" />
+		<color name="ambient" value="#0C0C0C" />
+		<color name="specular" value="#191919" />
+		<float name="shininess" value="0.05" />
+		<texture name="grass" path="R.textures.heightmap.grass" index="0" mode="diffuse" />
+		<texture name="dirt" path="R.textures.heightmap.dirt" index="1" mode="diffuse" />
+		<texture name="rock" path="R.textures.heightmap.rock" index="2" mode="diffuse" />
+		<texture name="snow" path="R.textures.heightmap.snow" index="3" mode="diffuse" />
+</material>

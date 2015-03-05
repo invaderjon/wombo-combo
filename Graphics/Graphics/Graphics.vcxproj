@@ -101,7 +101,9 @@
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="sh_vert_330.glsl">
       <DeploymentContent>true</DeploymentContent>
     </None>
@@ -127,6 +129,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputPrinter.h" />
     <ClInclude Include="IRenderable.h" />
+    <ClInclude Include="IResource.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Node.h" />

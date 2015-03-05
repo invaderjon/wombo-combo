@@ -7,7 +7,7 @@ SubMesh::SubMesh() :
 {
 }
 
-SubMesh::SubMesh(Res indices, const Material& mat) : 
+SubMesh::SubMesh(Res indices, Res mat) : 
 	IIdentifiable(), mIndices(indices), mMaterial(mat)
 {
 }
@@ -26,12 +26,12 @@ void SubMesh::indices(Res ind)
 	mIndices = ind;
 }
 
-const Material& SubMesh::material() const
+Res SubMesh::material() const
 {
 	return mMaterial;
 }
 
-void SubMesh::material(const Material& mat)
+void SubMesh::material(Res mat)
 {
 	mMaterial = mat;
 }

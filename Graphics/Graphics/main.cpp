@@ -3,6 +3,10 @@
 #include <iomanip>
 #include <chrono>
 #include <random>
+#include "IAllocator.h"
+#include "StackAllocator.h"
+#include "ChunkAllocator.h"
+#include "DSStackAllocator.h"
 
 using namespace graphics;
 using namespace std::chrono;
@@ -21,5 +25,6 @@ int main(int argc, char **argv)
 	high_resolution_clock::time_point now = high_resolution_clock::now();
 	std::time_t time = high_resolution_clock::to_time_t(high_resolution_clock::now());
 	std::cout << std::put_time(std::localtime(&time), "%c %Z") << std::endl;
+
 	return engine.start(argc, argv);
 }

@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\World">
       <UniqueIdentifier>{6877b78b-a312-4b92-b254-bfa258658b45}</UniqueIdentifier>
     </Filter>
@@ -67,6 +63,10 @@
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{8de718a3-8bbd-45b7-a4b5-01ce78f786f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -77,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Resources.cpp">
-      <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Resources</Filter>
@@ -150,6 +147,9 @@
     <ClCompile Include="ChunkAllocator.cpp">
       <Filter>Source Files\Allocators</Filter>
     </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -175,9 +175,6 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Resources</Filter>
@@ -265,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="ChunkAllocator.h">
       <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="IResource.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

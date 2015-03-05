@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IIdentifiable.h"
-#include "Resources.h"
+#include "IResource.h"
 #include "Texture.h"
 #include "Material.h"
 
@@ -13,18 +13,18 @@ namespace graphics
 	{
 	private:
 		Res			mIndices;	// Index Data Resource Handle
-		Material	mMaterial;	// Material
+		Res			mMaterial;	// Material
 
 	public:
 		SubMesh();
-		SubMesh(Res indices, const Material& mat);
+		SubMesh(Res indices, Res mat);
 		~SubMesh();
 
 		// accessors
 		inline Res				indices() const;
 		inline void				indices(Res ind);
-		inline const Material&	material() const;
-		inline void				material(const Material& mat);
+		inline Res				material() const;
+		inline void				material(Res mat);
 	};
 
 }

@@ -2,7 +2,6 @@
 
 #include "IIdentifiable.h"
 #include "Graphics.h"
-#include "Resources.h"
 #include "SubMesh.h"
 
 // A simple class which is meant to hold all information regarding the
