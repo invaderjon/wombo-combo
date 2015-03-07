@@ -19,10 +19,10 @@ HeightMap::HeightMap(GEfloat maxHeight)
 HeightMap::HeightMap(string path, GEfloat maxHeight)
 	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals()
 {
-	grass = new Texture("Textures/grass.bmp", GL_REPEAT, 0);
-	dirt = new Texture("Textures/dirt.bmp", GL_REPEAT, 1);
-	rock = new Texture("Textures/rock.bmp", GL_REPEAT, 2);
-	snow = new Texture("Textures/snow.bmp", GL_REPEAT, 3);
+	grass = new Texture("Resources/textures/heightmap/grass.bmp", GL_REPEAT, 0);
+	dirt = new Texture("Resources/textures/heightmap/dirt.bmp", GL_REPEAT, 1);
+	rock = new Texture("Resources/textures/heightmap/rock.bmp", GL_REPEAT, 2);
+	snow = new Texture("Resources/textures/heightmap/snow.bmp", GL_REPEAT, 3);
 	loadImage(path);
 } 
 

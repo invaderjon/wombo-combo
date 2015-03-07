@@ -150,6 +150,15 @@
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceIds.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceDb.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Source Files\Unorganized</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -163,6 +172,12 @@
       <Filter>Source Files\Shaders\Fragment</Filter>
     </None>
     <None Include="sh_vert_330.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="sh_frag_octree.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="sh_vert_octree.glsl">
       <Filter>Source Files\Shaders\Vertex</Filter>
     </None>
   </ItemGroup>
@@ -268,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceDb.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

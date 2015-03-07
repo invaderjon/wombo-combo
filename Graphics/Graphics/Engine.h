@@ -14,6 +14,7 @@
 #include "ArcBallCamera.h"
 #include "Buffers.h"
 #include "Texture.h"
+#include "Octree.h"
 
 #define TARGET_FRAME_TIME 16666667
 
@@ -59,7 +60,11 @@ namespace graphics
 		GLFWwindow* mWindow;
 		InputManager* mInputManager;
 		Camera* mCamera;
-		ShaderIndices mIndices;
+		ShaderIndices mHMIndices;
+		ShaderIndices mOTIndices;
+		Program* mHMProgram;
+		Program* mOTProgram;
 		HeightMap* mHeightMap;
+		Octree* mOctree;
 	};
 }

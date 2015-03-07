@@ -1,0 +1,12 @@
+<!-- TODO: Generate this file when resources are compiled -->
+<!-- TODO: Generate ResourceId header file in conjunction -->
+<db>
+	<!-- Textures -->
+	<entry id="0" type="texture" path="R.textures.heightmap.grass" />
+	<entry id="1" type="texture" path="R.textures.heightmap.dirt" />
+	<entry id="2" type="texture" path="R.textures.heightmap.rock" />
+	<entry id="3" type="texture" path="R.textures.heightmap.snow" />
+	<entry id="4" type="texture" path="R.textures.heightmap.map" />
+	<!-- Materials -->
+	<entry id="5" type="material" path="R.materials.terrain.heightmap" />
+</db>

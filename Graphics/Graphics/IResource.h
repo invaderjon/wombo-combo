@@ -3,15 +3,14 @@
 #include "Primitives.h"
 
 #define GE_RES_INVALID -1
-#define UNLOADED 0
-#define LOADING 1
-#define LOADED 2
-#define UNLOADING 3
-//#define ERROR 4
+#define GE_RES_STATE_UNLOADED 0
+#define GE_RES_STATE_LOADING 1
+#define GE_RES_STATE_LOADED 2
+#define GE_RES_STATE_UNLOADING 3
 
 namespace graphics
 {
-
+	// type used to identify resources
 	typedef GEuint Res;
 
 	class IResource
@@ -30,11 +29,10 @@ namespace graphics
 		virtual GEuint state() const;
 		
 		/// <summary>
-		/// Loads the specified data and processes it.
+		/// Updates the resource's current state.
 		/// </summary>
-		/// <param name="data">The xml data.</param>
-		/// <returns>Zero if successful or an error code.</returns>
-		virtual GEuint load(GEbyte* data); // TODO: replace with psueudo xml loader class
+		/// <param name="state">The load state.</param>
+		virtual void state(GEuint state);
 	};
 
 }

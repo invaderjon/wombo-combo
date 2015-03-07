@@ -1,6 +1,9 @@
 #pragma once
 
+#include <IL\il.h>
 #include "Primitives.h"
+#include "ChunkAllocator.h"
+#include "ResourceDb.h"
 #include "IResource.h"
 #include "Texture.h"
 #include "Mesh.h"
@@ -11,29 +14,34 @@
 
 namespace graphics
 {
-
-	typedef GEuint Res;
-
 	// helper class
-	class Options
+	struct Options
 	{
+		// force immediate loading
+		GEboolean immediate;
 
+		Options() : immediate(1) { }
 	};
 
 	class Resources
 	{
+	private:
+		// methods
+		// converts respath to filepath
+		string parseResPath(string path) const;
+
+		// variables
+		ChunkAllocator alloc;
+		ResourceDb mDB;
 	public:
 		Resources();
 		~Resources();
 
 		Material* loadMaterial(Res res);
 		Material* loadMaterial(Res res, const Options& opts);
-		Material* createMaterial(Texture* textures, GEuint texCount);
 
 		Texture* loadTexture(Res res);
 		Texture* loadTexture(Res res, const Options& opts);
-		Texture* createTexture(GEuint width, GEuint height, GEuint format);
-		Texture* createTextures(GEuint* widths, GEuint* heights, GEuint* format, GEuint count);
 
 		Mesh* loadMesh(Res res);
 		Mesh* loadMesh(Res res, const Options& opts);
@@ -48,7 +56,7 @@ namespace graphics
 		Entity* loadEntity(Res res, const Options& opts);
 		Entity* createEntity(Mesh* mesh);
 
-		/* Eventually implement
+		/* TODO: implement
 		// generic stream
 		Stream* startStream(Res res);
 		Stream* closeStream(Res res, const Options& opts);

@@ -3,6 +3,7 @@
 using namespace graphics;
 
 Resources::Resources()
+	: alloc(KB(512), 128) // max 128 resources
 {
 }
 
@@ -17,6 +18,21 @@ Material* Resources::loadMaterial(Res res)
 
 Material* Resources::loadMaterial(Res res, const Options& opts)
 {
+	ResourceDb::ResEntry entry = mDB.getResource(res);
+
+	// verifies type [break on mismatch]
+	if (entry.type != GE_RES_TYPE_MATERIAL)
+		throw new runtime_error("Resource type mismatch occurred.");
+
+	// gets the data
+	Material* mat = (Material*)entry.data;
+
+	// if it's not null check if loaded
+	if (mat != NULL && mat->state() == GE_RES_STATE_LOADED)
+		return mat;
+	if (mat == NULL)
+		
+
 	return NULL;
 }
 

@@ -28,6 +28,8 @@ namespace graphics
 		virtual void push(Attributes& attr);
 		virtual void update(Mat4* viewMatrix);
 		virtual void render(ShaderIndices* indices);
+		vector<Vert> mVertices;
+		vector<Tri>  mFaces;
 	private:
 		// loads and processes the heightmap image using a given string path
 		void loadImage(string path);
@@ -55,8 +57,6 @@ namespace graphics
 
 		// instance variables
 		GEfloat mMaxHeight;
-		vector<Vert> mVertices;
-		vector<Tri>  mFaces;
 		vector<Vec3> mFaceNormals;
 		Texture* grass;
 		Texture* dirt;

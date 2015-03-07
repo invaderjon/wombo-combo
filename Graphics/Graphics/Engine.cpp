@@ -98,14 +98,30 @@ GEenum Engine::initGLEW()
 }
 
 void Engine::initGL() {
+
+	/////////////////////////////////
+	// Option Configuration
+	/////////////////////////////////
+
+	// enables depth test
+	glEnable(GL_DEPTH_TEST);
+
+	// sets depth test mode
+	glDepthFunc(GL_LESS);
+
+	// textures
+	glEnable(GL_TEXTURE_2D);
+
+	glClearColor(.5f, .5f, .5f, 1.0f);
+
 	/////////////////////////////////
 	// Shader Loading
 	/////////////////////////////////
 
 	// gets version info for shader proecessing
+	GEint version;
 	GEint major;
 	GEint minor;
-	GEint version;
 	GEint target;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
@@ -135,47 +151,55 @@ void Engine::initGL() {
 	shaders[1] = Shader(frag.str(), GL_FRAGMENT_SHADER);
 
 	// creates the new program
-	Program program(&shaders[0], 2);
-	glUseProgram(program.id());
+	mHMProgram = new Program(&shaders[0], 2);
 
 	// releases the shaders
 	shaders[0].release();
 	shaders[1].release();
 
+	// creates oct tree program
+	shaders[0] = Shader("sh_vert_octree.glsl", GL_VERTEX_SHADER);
+	shaders[1] = Shader("sh_frag_octree.glsl", GL_FRAGMENT_SHADER);
+
+	// creates oct tree program
+	mOTProgram = new Program(&shaders[0], 2);
+
+	// starts off with the height map
+	glUseProgram(mHMProgram->id());
+	
 	/////////////////////////////////
-	// Option Configuration
+	// Program Configuration
 	/////////////////////////////////
-
-	// enables depth test
-	glEnable(GL_DEPTH_TEST);
-
-	// sets depth test mode
-	glDepthFunc(GL_LESS);
-
-	// textures
-	glEnable(GL_TEXTURE_2D);
-
-	glClearColor(.5f, .5f, .5f, 1.0f);
-
+	
 	// gets attribute indices
-	mIndices.attrs.position = glGetAttribLocation(program.id(), "vPosition");
-	mIndices.attrs.normal = glGetAttribLocation(program.id(), "vNormal");
+	mHMIndices.attrs.position = glGetAttribLocation(mHMProgram->id(), "vPosition");
+	mHMIndices.attrs.normal = glGetAttribLocation(mHMProgram->id(), "vNormal");
 
 	// gets matrix indices
-	mIndices.matrices.model = glGetUniformLocation(program.id(), "mModel");
-	mIndices.matrices.view = glGetUniformLocation(program.id(), "mView");
-	mIndices.matrices.projection = glGetUniformLocation(program.id(), "mProjection");
-	mIndices.matrices.normal = glGetUniformLocation(program.id(), "mNormal");
+	mHMIndices.matrices.model = glGetUniformLocation(mHMProgram->id(), "mModel");
+	mHMIndices.matrices.view = glGetUniformLocation(mHMProgram->id(), "mView");
+	mHMIndices.matrices.projection = glGetUniformLocation(mHMProgram->id(), "mProjection");
+	mHMIndices.matrices.normal = glGetUniformLocation(mHMProgram->id(), "mNormal");
 
 	// gets texture indices
-	mIndices.heightMap.grassUniform = glGetUniformLocation(program.id(), "grassTex");
-	mIndices.heightMap.dirtUniform = glGetUniformLocation(program.id(), "dirtTex");
-	mIndices.heightMap.rockUniform = glGetUniformLocation(program.id(), "rockTex");
-	mIndices.heightMap.snowUniform = glGetUniformLocation(program.id(), "snowTex");
-	glProgramUniform1i(program.id(), mIndices.heightMap.grassUniform, 0);
-	glProgramUniform1i(program.id(), mIndices.heightMap.dirtUniform, 1);
-	glProgramUniform1i(program.id(), mIndices.heightMap.rockUniform, 2);
-	glProgramUniform1i(program.id(), mIndices.heightMap.snowUniform, 3);
+	mHMIndices.heightMap.grassUniform = glGetUniformLocation(mHMProgram->id(), "grassTex");
+	mHMIndices.heightMap.dirtUniform = glGetUniformLocation(mHMProgram->id(), "dirtTex");
+	mHMIndices.heightMap.rockUniform = glGetUniformLocation(mHMProgram->id(), "rockTex");
+	mHMIndices.heightMap.snowUniform = glGetUniformLocation(mHMProgram->id(), "snowTex");
+	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.grassUniform, 0);
+	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.dirtUniform, 1);
+	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.rockUniform, 2);
+	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.snowUniform, 3);
+
+	// sets up the oct tree program
+	glUseProgram(mOTProgram->id());
+	mOTIndices.attrs.position = glGetAttribLocation(mOTProgram->id(), "vPosition");
+	mOTIndices.matrices.model = glGetUniformLocation(mOTProgram->id(), "mModel");
+	mOTIndices.matrices.view = glGetUniformLocation(mOTProgram->id(), "mView");
+	mOTIndices.matrices.projection = glGetUniformLocation(mOTProgram->id(), "mProjection");
+
+	// reset to heightmap
+	glUseProgram(mHMProgram->id());
 	
 	// sets up the material block
 	/*mIndices.material.binding = 10000;
@@ -205,8 +229,13 @@ void Engine::initEngine()
 
 void Engine::loadHeightMap()
 {
-	mHeightMap = new HeightMap("Textures/map.bmp");
-	mHeightMap->push(mIndices.attrs);
+	glUseProgram(mHMProgram->id());
+	mHeightMap = new HeightMap("Resources/textures/heightmap/map.bmp");
+	mHeightMap->push(mHMIndices.attrs);
+
+	glUseProgram(mOTProgram->id());
+	mOctree = new Octree(&mHeightMap->mVertices[0], &mHeightMap->mFaces[0], mHeightMap->mFaces.size());
+	mOctree->push(mOTIndices.attrs);
 }
 
 void Engine::loop()
@@ -242,12 +271,24 @@ void Engine::render()
 {
 	// clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUniformMatrix4fv(mIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
+	// heightmap
+	glUseProgram(mHMProgram->id());
+	glUniformMatrix4fv(mHMIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mHMIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 
 	// renders the heightmap
-	mHeightMap->render(&mIndices);
+	mHeightMap->render(&mHMIndices);
+
+	// octree
+	glUseProgram(mOTProgram->id());
+	glUniformMatrix4fv(mOTIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mOTIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
+	// renders the octree
+	mOctree->render(&mOTIndices);
+
 
 	// draw
 	glfwSwapBuffers(mWindow);
