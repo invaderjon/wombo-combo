@@ -170,9 +170,9 @@ void Engine::initGL() {
 	/////////////////////////////////
 	// Program Configuration
 	/////////////////////////////////
-	
+
 	// gets attribute indices
-	mHMIndices.attrs.position = glGetAttribLocation(mHMProgram->id(), "vPosition");
+	/*mHMIndices.attrs.position = glGetAttribLocation(mHMProgram->id(), "vPosition");
 	mHMIndices.attrs.normal = glGetAttribLocation(mHMProgram->id(), "vNormal");
 
 	// gets matrix indices
@@ -190,7 +190,7 @@ void Engine::initGL() {
 	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.dirtUniform, 1);
 	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.rockUniform, 2);
 	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.snowUniform, 3);
-
+	
 	// sets up the oct tree program
 	glUseProgram(mOTProgram->id());
 	mOTIndices.attrs.position = glGetAttribLocation(mOTProgram->id(), "vPosition");
@@ -199,7 +199,7 @@ void Engine::initGL() {
 	mOTIndices.matrices.projection = glGetUniformLocation(mOTProgram->id(), "mProjection");
 
 	// reset to heightmap
-	glUseProgram(mHMProgram->id());
+	glUseProgram(mHMProgram->id());*/
 	
 	// sets up the material block
 	/*mIndices.material.binding = 10000;
@@ -231,11 +231,11 @@ void Engine::loadHeightMap()
 {
 	glUseProgram(mHMProgram->id());
 	mHeightMap = new HeightMap("Resources/textures/heightmap/map.bmp");
-	mHeightMap->push(mHMIndices.attrs);
+	mHeightMap->push(mHMProgram);
 
 	glUseProgram(mOTProgram->id());
 	mOctree = new Octree(&mHeightMap->mVertices[0], &mHeightMap->mFaces[0], mHeightMap->mFaces.size());
-	mOctree->push(mOTIndices.attrs);
+	mOctree->push(mOTProgram);
 }
 
 void Engine::loop()
@@ -274,20 +274,20 @@ void Engine::render()
 
 	// heightmap
 	glUseProgram(mHMProgram->id());
-	glUniformMatrix4fv(mHMIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mHMIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 
 	// renders the heightmap
-	mHeightMap->render(&mHMIndices);
+	mHeightMap->render(mHMProgram);
 
 	// octree
 	glUseProgram(mOTProgram->id());
-	glUniformMatrix4fv(mOTIndices.matrices.projection, 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mOTIndices.matrices.view, 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	glUniformMatrix4fv(mOTProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mOTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 	// renders the octree
-	mOctree->render(&mOTIndices);
+	mOctree->render(mOTProgram);
 
 
 	// draw

@@ -108,15 +108,6 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files\Unorganized</Filter>
     </ClCompile>
-    <ClCompile Include="HeightMap.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
-    <ClCompile Include="IRenderable.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
-    <ClCompile Include="IControllable.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\Unorganized</Filter>
     </ClCompile>
@@ -156,8 +147,11 @@
     <ClCompile Include="ResourceDb.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
     <ClCompile Include="Octree.cpp">
-      <Filter>Source Files\Unorganized</Filter>
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,12 +221,6 @@
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
-    <ClInclude Include="HeightMap.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
-    <ClInclude Include="IControllable.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
@@ -240,9 +228,6 @@
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
     <ClInclude Include="InputPrinter.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderable.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
@@ -287,8 +272,17 @@
     <ClInclude Include="ResourceDb.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IControllable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
     <ClInclude Include="Octree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

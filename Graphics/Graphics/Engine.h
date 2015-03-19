@@ -60,8 +60,8 @@ namespace graphics
 		GLFWwindow* mWindow;
 		InputManager* mInputManager;
 		Camera* mCamera;
-		ShaderIndices mHMIndices;
-		ShaderIndices mOTIndices;
+		//ShaderIndices mHMIndices;
+		//ShaderIndices mOTIndices;
 		Program* mHMProgram;
 		Program* mOTProgram;
 		HeightMap* mHeightMap;

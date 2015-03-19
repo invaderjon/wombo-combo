@@ -6,7 +6,7 @@
 
 namespace graphics
 {
-	typedef struct sAttributes
+	/*typedef struct sAttributes
 	{
 		GEuint position;
 		GEuint normal;
@@ -32,7 +32,7 @@ namespace graphics
 		GEuint normal;
 
 		sMatricesIndices() : model(0), view(0), projection(0), normal(0) { }
-	}			MatricesIndices;
+	}			MatricesIndices;*/
 
 	typedef struct sMaterial
 	{
@@ -46,7 +46,7 @@ namespace graphics
 		sMaterial() : diffuse(), ambient(), specular(), shininess(0.0f) { }
 	}				Material;
 
-	typedef struct sHeightMapTexIds
+	/*typedef struct sHeightMapTexIds
 	{
 		GEuint grass;
 		GEuint dirt;
@@ -73,5 +73,5 @@ namespace graphics
 		MatricesIndices matrices;
 		HeightMapTexIds heightMap;
 		UniformBlock material;
-	}				ShaderIndices;
+	}				ShaderIndices;*/
 }

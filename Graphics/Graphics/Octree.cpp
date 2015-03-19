@@ -133,7 +133,7 @@ void OTLeaf::append(vector<Vec3>& verts, vector<GEuint>& indices)
 	indices.push_back(n + 3); indices.push_back(n + 7);
 }
 
-void Octree::push(Attributes& attrs)
+void Octree::push(Program* program)
 {
 	// clears buffers
 	mVertices.clear();
@@ -150,10 +150,10 @@ void Octree::push(Attributes& attrs)
 	glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(Vec3), &mVertices[0], GL_STATIC_DRAW);
 
 	// enables attributes
-	glVertexAttribPointer(attrs.position, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), 0);
+	glVertexAttribPointer(program->resource(VERT_POSITION), 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), 0);
 
 	// enables attribtues
-	glEnableVertexAttribArray(attrs.position);
+	glEnableVertexAttribArray(program->resource(VERT_POSITION));
 
 	// loads indices
 	glGenBuffers(1, &mIBO);
@@ -170,10 +170,10 @@ void Octree::update(Mat4* view)
 	mModelMatrix = Mat4();
 }
 
-void Octree::render(ShaderIndices* indices)
+void Octree::render(Program* program)
 {
 	// updates matrices 
-	glUniformMatrix4fv(indices->matrices.model, 1, GL_FALSE, glm::value_ptr(mModelMatrix));
+	glUniformMatrix4fv(program->resource(MAT_MODEL), 1, GL_FALSE, glm::value_ptr(mModelMatrix));
 
 	// draw cube
 	glBindVertexArray(mVAO);

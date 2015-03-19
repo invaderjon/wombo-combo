@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Graphics.h"
 #include "IRenderable.h"
+#include "Program.h"
 #include "Buffers.h"
 #include "ShaderStructs.h"
 #include "Texture.h"
@@ -25,9 +26,9 @@ namespace graphics
 		HeightMap(GEfloat maxHeight = 1.0f);
 		HeightMap(string path, GEfloat maxHeight = 1.0f);
 		~HeightMap();
-		virtual void push(Attributes& attr);
+		virtual void push(Program* program);
 		virtual void update(Mat4* viewMatrix);
-		virtual void render(ShaderIndices* indices);
+		virtual void render(Program* program);
 		vector<Vert> mVertices;
 		vector<Tri>  mFaces;
 	private:

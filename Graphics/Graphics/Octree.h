@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Buffers.h"
 #include "IRenderable.h"
+#include "Program.h"
 
 #define GE_OCTREE_TRI_MAX 300
 #define GE_OCTREE_DEPTH_MAX 3
@@ -58,9 +59,9 @@ namespace graphics
 		Octree(Vert* verts, Tri* faces, GEuint faceCount, const Vec4& cube);
 		~Octree();
 
-		void push(Attributes& attr);
+		void push(Program* program);
 		void update(Mat4* viewMatrix);
-		void render(ShaderIndices* indices);
+		void render(Program* program);
 	};
 
 }

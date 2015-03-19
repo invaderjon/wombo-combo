@@ -10,10 +10,10 @@ HeightMap::HeightMap(GEfloat maxHeight)
 	GEfloat spec = 1.0f;
 	GEfloat shin = 0.5f;
 
-	mMaterial.diffuse = Vec3(.7f, .7f, .7f);
+	/*mMaterial.diffuse = Vec3(.7f, .7f, .7f);
 	mMaterial.ambient = Vec3(.1f, .1f, .1f);
 	mMaterial.specular = Vec3(1.0f, 1.0f, 1.0f);
-	mMaterial.shininess = shin;
+	mMaterial.shininess = shin;*/
 }
 
 HeightMap::HeightMap(string path, GEfloat maxHeight)
@@ -30,7 +30,7 @@ HeightMap::~HeightMap()
 {
 }
 
-void HeightMap::push(Attributes& attrs)
+void HeightMap::push(Program* program)
 {
 	mVAO = Buffers::nextBuffer();
 	mVBO = Buffers::nextBuffer();
@@ -46,12 +46,12 @@ void HeightMap::push(Attributes& attrs)
 	glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(Vert), &mVertices[0], GL_STATIC_DRAW);
 
 	// sets attributes
-	glVertexAttribPointer(attrs.position, 3, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
-	glVertexAttribPointer(attrs.normal, 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(3 * sizeof(GEfloat)));
+	glVertexAttribPointer(program->resource(VERT_POSITION), 3, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
+	glVertexAttribPointer(program->resource(VERT_NORMAL), 3, GL_FLOAT, GL_TRUE, sizeof(Vert), (void*)(3 * sizeof(GEfloat)));
 
 	// enables attributes
-	glEnableVertexAttribArray(attrs.position);
-	glEnableVertexAttribArray(attrs.normal);
+	glEnableVertexAttribArray(program->resource(VERT_POSITION));
+	glEnableVertexAttribArray(program->resource(VERT_NORMAL));
 
 	// loads indices
 	glGenBuffers(1, &mIBO);
@@ -70,17 +70,17 @@ void HeightMap::update(Mat4* view)
 	mNormalMatrix = glm::inverseTranspose(modelView);
 }
 
-void HeightMap::render(ShaderIndices* indices)
+void HeightMap::render(Program* program)
 {
 	// updates matrices
-	glUniformMatrix4fv(indices->matrices.model, 1, GL_FALSE, glm::value_ptr(mModelMatrix));
-	glUniformMatrix3fv(indices->matrices.normal, 1, GL_FALSE, glm::value_ptr(mNormalMatrix));
+	glUniformMatrix4fv(program->resource(MAT_MODEL), 1, GL_FALSE, glm::value_ptr(mModelMatrix));
+	glUniformMatrix3fv(program->resource(MAT_NORMAL), 1, GL_FALSE, glm::value_ptr(mNormalMatrix));
 
 	// sets texture uniforms
-	glUniform1i(indices->heightMap.grassUniform, grass->id());
-	glUniform1i(indices->heightMap.dirtUniform, dirt->id());
-	glUniform1i(indices->heightMap.rockUniform, rock->id());
-	glUniform1i(indices->heightMap.snowUniform, snow->id());
+	glUniform1i(program->resource("grassTex"), grass->id());
+	glUniform1i(program->resource("dirtTex"), dirt->id());
+	glUniform1i(program->resource("rockTex"), rock->id());
+	glUniform1i(program->resource("snowTex"), snow->id());
 
 	// grass
 	glActiveTexture(GL_TEXTURE0);

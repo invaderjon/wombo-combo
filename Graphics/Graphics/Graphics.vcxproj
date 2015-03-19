@@ -78,11 +78,9 @@
     <ClCompile Include="DSStackAllocator.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="HeightMap.cpp" />
-    <ClCompile Include="IControllable.cpp" />
     <ClCompile Include="IIdentifiable.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputPrinter.cpp" />
-    <ClCompile Include="IRenderable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Material.cpp" />
