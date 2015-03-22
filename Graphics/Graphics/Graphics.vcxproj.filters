@@ -93,13 +93,7 @@
     <ClCompile Include="IIdentifiable.cpp">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="ArcBallCamera.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
     <ClCompile Include="Buffers.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Unorganized</Filter>
     </ClCompile>
     <ClCompile Include="Clock.cpp">
@@ -112,9 +106,6 @@
       <Filter>Source Files\Unorganized</Filter>
     </ClCompile>
     <ClCompile Include="InputPrinter.cpp">
-      <Filter>Source Files\Unorganized</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrices.cpp">
       <Filter>Source Files\Unorganized</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
@@ -153,6 +144,18 @@
     <ClCompile Include="Octree.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
+    <ClCompile Include="UniformBlock.cpp">
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcBallCamera.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Flock.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -173,6 +176,12 @@
     </None>
     <None Include="sh_vert_octree.glsl">
       <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="sh_vert_flock.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="sh_frag_flock.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -200,13 +209,7 @@
     <ClInclude Include="IIdentifiable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ArcBallCamera.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
     <ClInclude Include="Buffers.h">
-      <Filter>Header Files\Unorganized</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
       <Filter>Header Files\Unorganized</Filter>
     </ClInclude>
     <ClInclude Include="Clock.h">
@@ -282,6 +285,18 @@
       <Filter>Header Files\World</Filter>
     </ClInclude>
     <ClInclude Include="Octree.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBlock.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcBallCamera.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Flock.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
   </ItemGroup>

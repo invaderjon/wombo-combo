@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "Platform.h"
 #include "Shader.h"
+#include "UniformBlock.h"
 
 #define VERT_POSITION "vPosition"
 #define VERT_NORMAL "vNormal"
@@ -28,9 +29,11 @@ namespace graphics
 		GEuint id() const; 
 		// gets resource via name in shader
 		GEint resource(const string& name) const;
+		const UniformBlock& block(const string& name) const;
 	private:
 		GEuint mId;
 		unordered_map<string, GEint> mResources;
+		unordered_map<string, UniformBlock> mUniformBlocks;
 
 		// extracts all of the resources for the program
 		void extract();

@@ -27,7 +27,7 @@ namespace graphics
 		HeightMap(string path, GEfloat maxHeight = 1.0f);
 		~HeightMap();
 		virtual void push(Program* program);
-		virtual void update(Mat4* viewMatrix);
+		virtual void update(Mat4* viewMatrix, GEdouble elapsed);
 		virtual void render(Program* program);
 		vector<Vert> mVertices;
 		vector<Tri>  mFaces;

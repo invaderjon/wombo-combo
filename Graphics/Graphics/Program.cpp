@@ -79,6 +79,8 @@ void Program::extractResources(GEenum type)
 	props.push_back(GL_ARRAY_SIZE);
 	if (type != GL_UNIFORM_BLOCK)
 		props.push_back(GL_LOCATION);
+	else
+		props.push_back(GL_BUFFER_DATA_SIZE);
 	vector<GEint> values(props.size());
 
 	glGetProgramInterfaceiv(mId, type, GL_ACTIVE_RESOURCES, &count);
@@ -99,7 +101,11 @@ void Program::extractResources(GEenum type)
 		if (type != GL_UNIFORM_BLOCK)
 			location = values[3];
 		else
+		{
 			location = glGetUniformBlockIndex(mId, name.c_str());
+			// creates and inserts a new unif
+			mUniformBlocks.insert(make_pair(name, UniformBlock(mId, name, location)));
+		}
 
 		printf("Inserting: %s:%i\n", name.c_str(), location);
 		mResources.insert(std::make_pair(name, location));

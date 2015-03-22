@@ -3,7 +3,6 @@
 
 #define GE_ID_INVALID -1
 
-
 // Simple "interface" which provides a system for aquiring a globally unique
 // id. This can also be used to avoid casts when checking for equality.
 namespace graphics
@@ -24,7 +23,7 @@ namespace graphics
 		IIdentifiable();
 		~IIdentifiable();
 				
-		inline ID id() const;
+		inline virtual ID id() const;
 	};
 
 }

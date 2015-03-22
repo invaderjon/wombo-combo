@@ -15,6 +15,7 @@
 #include "Buffers.h"
 #include "Texture.h"
 #include "Octree.h"
+#include "Flock.h"
 
 #define TARGET_FRAME_TIME 16666667
 
@@ -45,8 +46,9 @@ namespace graphics
 		void initGL();
 		void initEngine();
 		void loadHeightMap();
+		void loadFlock();
 		void loop();
-		void update();
+		void update(GEdouble elapsed);
 		void render();
 		void measure();
 		static void resize(GLFWwindow* window, GEint width, GEint height);
@@ -60,11 +62,11 @@ namespace graphics
 		GLFWwindow* mWindow;
 		InputManager* mInputManager;
 		Camera* mCamera;
-		//ShaderIndices mHMIndices;
-		//ShaderIndices mOTIndices;
 		Program* mHMProgram;
 		Program* mOTProgram;
+		Program* mFProgram;
 		HeightMap* mHeightMap;
 		Octree* mOctree;
+		Flock* mFlock;
 	};
 }

@@ -62,7 +62,7 @@ void HeightMap::push(Program* program)
 	glBindVertexArray(0);
 }
 
-void HeightMap::update(Mat4* view)
+void HeightMap::update(Mat4* view, GEdouble elapsed)
 {
 	mModelMatrix = Mat4();
 	mModelMatrix[0][0] = mModelMatrix[1][1] = mModelMatrix[2][2] = mModelMatrix[3][3] = 1.0f;

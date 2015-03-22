@@ -60,7 +60,7 @@ namespace graphics
 		~Octree();
 
 		void push(Program* program);
-		void update(Mat4* viewMatrix);
+		void update(Mat4* viewMatrix, GEdouble elapsed);
 		void render(Program* program);
 	};
 

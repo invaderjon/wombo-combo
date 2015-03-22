@@ -164,6 +164,17 @@ void Engine::initGL() {
 	// creates oct tree program
 	mOTProgram = new Program(&shaders[0], 2);
 
+	//creates flock program
+	shaders[0] = Shader("sh_vert_flock.glsl", GL_VERTEX_SHADER);
+	shaders[1] = Shader("sh_frag_flock.glsl", GL_FRAGMENT_SHADER);
+	
+	//creates flock program
+	mFProgram = new Program(&shaders[0], 2);
+
+	// release the shaders
+	shaders[0].release();
+	shaders[1].release();
+
 	// starts off with the height map
 	glUseProgram(mHMProgram->id());
 	
@@ -171,47 +182,15 @@ void Engine::initGL() {
 	// Program Configuration
 	/////////////////////////////////
 
-	// gets attribute indices
-	/*mHMIndices.attrs.position = glGetAttribLocation(mHMProgram->id(), "vPosition");
-	mHMIndices.attrs.normal = glGetAttribLocation(mHMProgram->id(), "vNormal");
-
-	// gets matrix indices
-	mHMIndices.matrices.model = glGetUniformLocation(mHMProgram->id(), "mModel");
-	mHMIndices.matrices.view = glGetUniformLocation(mHMProgram->id(), "mView");
-	mHMIndices.matrices.projection = glGetUniformLocation(mHMProgram->id(), "mProjection");
-	mHMIndices.matrices.normal = glGetUniformLocation(mHMProgram->id(), "mNormal");
-
-	// gets texture indices
-	mHMIndices.heightMap.grassUniform = glGetUniformLocation(mHMProgram->id(), "grassTex");
-	mHMIndices.heightMap.dirtUniform = glGetUniformLocation(mHMProgram->id(), "dirtTex");
-	mHMIndices.heightMap.rockUniform = glGetUniformLocation(mHMProgram->id(), "rockTex");
-	mHMIndices.heightMap.snowUniform = glGetUniformLocation(mHMProgram->id(), "snowTex");
-	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.grassUniform, 0);
-	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.dirtUniform, 1);
-	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.rockUniform, 2);
-	glProgramUniform1i(mHMProgram->id(), mHMIndices.heightMap.snowUniform, 3);
-	
-	// sets up the oct tree program
-	glUseProgram(mOTProgram->id());
-	mOTIndices.attrs.position = glGetAttribLocation(mOTProgram->id(), "vPosition");
-	mOTIndices.matrices.model = glGetUniformLocation(mOTProgram->id(), "mModel");
-	mOTIndices.matrices.view = glGetUniformLocation(mOTProgram->id(), "mView");
-	mOTIndices.matrices.projection = glGetUniformLocation(mOTProgram->id(), "mProjection");
-
-	// reset to heightmap
-	glUseProgram(mHMProgram->id());*/
-	
 	// sets up the material block
 	/*mIndices.material.binding = 10000;
 	mIndices.material.index = glGetUniformBlockIndex(program.id(), "MaterialBlock");
-	mIndices.material.buffer = Buffers::nextBuffer();
+	mIndices.material.buffer = Buffers::nextBuffer(); 
 	glUniformBlockBinding(program.id(), mIndices.material.index, mIndices.material.binding);
 	glGenBuffers(1, &mIndices.material.buffer);
 	glBindBuffer(GL_UNIFORM_BUFFER, mIndices.material.buffer);
 	glBindBufferBase(GL_UNIFORM_BUFFER, mIndices.material.binding, mIndices.material.buffer);*/
 	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-	
 }
 
 void Engine::initEngine()
@@ -224,7 +203,10 @@ void Engine::initEngine()
 	mInputManager->addListener(mCamera);
 
 	// test height map
-	loadHeightMap();
+	//loadHeightMap();
+
+	// test flocking
+	loadFlock();
 }
 
 void Engine::loadHeightMap()
@@ -238,17 +220,24 @@ void Engine::loadHeightMap()
 	mOctree->push(mOTProgram);
 }
 
+void Engine::loadFlock()
+{
+	glUseProgram(mFProgram->id());
+	mFlock = new Flock(20, 2.0f);
+	mFlock->push(mFProgram);
+}
+
 void Engine::loop()
 {
 
 	chrono::time_point<chrono::high_resolution_clock> start, end;
 	chrono::nanoseconds duration;
-	long long diff;
+	long long diff = 0;
 	while (!glfwWindowShouldClose(mWindow))
 	{
 		start = chrono::high_resolution_clock::now();
 		measure();
-		update();
+		update(diff / 1000000000.0f);
 		render();
 		glfwPollEvents();
 		end = chrono::high_resolution_clock::now();
@@ -260,11 +249,12 @@ void Engine::loop()
 	}
 }
 
-void Engine::update()
+void Engine::update(GEdouble elapsed)
 {
 	// updates the heightmap
 	Mat4 view = mCamera->view();
-	mHeightMap->update(&view);
+	//mHeightMap->update(&view);
+	mFlock->update(&view, elapsed);
 }
 
 void Engine::render()
@@ -273,7 +263,7 @@ void Engine::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// heightmap
-	glUseProgram(mHMProgram->id());
+	/*glUseProgram(mHMProgram->id());
 	glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
@@ -287,8 +277,13 @@ void Engine::render()
 	glUniformMatrix4fv(mOTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 	// renders the octree
-	mOctree->render(mOTProgram);
+	mOctree->render(mOTProgram);*/
 
+	glUseProgram(mFProgram->id());
+	glUniformMatrix4fv(mFProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mFProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
+	mFlock->render(mFProgram);
 
 	// draw
 	glfwSwapBuffers(mWindow);

@@ -164,7 +164,7 @@ void Octree::push(Program* program)
 	glBindVertexArray(0);
 }
 
-void Octree::update(Mat4* view)
+void Octree::update(Mat4* view, GEdouble elapsed)
 {
 	// nothing to do here
 	mModelMatrix = Mat4();

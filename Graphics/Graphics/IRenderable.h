@@ -11,7 +11,7 @@ namespace graphics
 	{
 	public:
 		virtual void push(Program* program) = 0;
-		virtual void update(Mat4* viewMatrix) = 0;
+		virtual void update(Mat4* viewMatrix, GEdouble elapsed) = 0;
 		virtual void render(Program* program) = 0;
 	protected:
 		GEuint mVAO;
