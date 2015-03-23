@@ -20,9 +20,9 @@ void main()
 	
 	// hard coded values due to broken material block
 	vec3 diffuse = vec3(.9, .2, .2); // constant color
-	vec3 ambient = vec3(.05, .05, .05);
-	vec3 specular = vec3(.4, .4, .4);
-	float shininess = 0.25f;
+	vec3 ambient = vec3(.3, .05, .05);
+	vec3 specular = vec3(1, .7, .7);
+	float shininess = 20.0f;
 
 	// if there's specular, calculate it
 	if (lambert > 0.0)

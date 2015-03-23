@@ -223,7 +223,7 @@ void Engine::loadHeightMap()
 void Engine::loadFlock()
 {
 	glUseProgram(mFProgram->id());
-	mFlock = new Flock(20, 2.0f);
+	mFlock = new Flock(250, 10.0f);
 	mFlock->push(mFProgram);
 }
 

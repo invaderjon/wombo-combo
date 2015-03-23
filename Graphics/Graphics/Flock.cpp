@@ -171,24 +171,12 @@ void Flock::update(Mat4* viewMatrix, GEdouble elapsed)
 		// calculates the rotation
 		Vec3 p = mBoids[i].pos;
 		Vec3 v = glm::normalize(mBoids[i].vel);
-		const GEfloat len1 = glm::length(init);
-		const GEfloat len2 = glm::length(v);
-		const GEfloat lensqr1 = std::powf(len1, 2);
-		const GEfloat lensqr2 = std::powf(len2, 2);
-		const GEfloat rot = std::acosf((glm::dot(init, v) / (len1 * len2)));//std::sqrtf(lensqr1 * lensqr2) + glm::dot(init, v) + M_PI;
 
-		//printf("Rotation: %f, %f, %f, %f\n", v.x, v.y, v.z, rot);
+		// uses look at to orient the boids (easier than calculation direction 
+		trans = glm::inverse(glm::lookAt(p, p + v, init));
 
-		// calculates the rotational axis
-		const Vec3 axis = glm::normalize(glm::cross(v, init));
-
-		// generates the transformation matrix
-		Quat q = angleAxis(rot, axis);
-		//trans = glm::mat4_cast(q); // direction (from velocity)
-		trans = glm::translate(trans, p); // position
-		
 		// calcualtes normal matrix
-		Mat4 modelView = Mat4(trans * *viewMatrix);
+		Mat4 modelView = Mat4(*viewMatrix * trans);
 		norm = glm::inverseTranspose(modelView);
 
 		// updates them in the array
