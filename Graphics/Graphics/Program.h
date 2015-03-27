@@ -15,6 +15,10 @@
 #define MAT_PROJECTION "mProjection"
 #define MAT_NORMAL "mNormal"
 
+#define GE_PROGRAM_INTROSPECTION_INPUTS 1
+#define GE_PROGRAM_INTROSPECTION_UNIFORMS 2
+#define GE_PROGRAM_INTROSPECTION_UNIFORM_BLOCKS 3
+
 using namespace std;
 
 namespace graphics

@@ -203,7 +203,7 @@ void Engine::initEngine()
 	mInputManager->addListener(mCamera);
 
 	// test height map
-	//loadHeightMap();
+	loadHeightMap();
 
 	// test flocking
 	loadFlock();
@@ -253,7 +253,7 @@ void Engine::update(GEdouble elapsed)
 {
 	// updates the heightmap
 	Mat4 view = mCamera->view();
-	//mHeightMap->update(&view);
+	mHeightMap->update(&view, elapsed);
 	mFlock->update(&view, elapsed);
 }
 
@@ -263,7 +263,7 @@ void Engine::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// heightmap
-	/*glUseProgram(mHMProgram->id());
+	glUseProgram(mHMProgram->id());
 	glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
@@ -277,7 +277,7 @@ void Engine::render()
 	glUniformMatrix4fv(mOTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 	// renders the octree
-	mOctree->render(mOTProgram);*/
+	mOctree->render(mOTProgram);
 
 	glUseProgram(mFProgram->id());
 	glUniformMatrix4fv(mFProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
