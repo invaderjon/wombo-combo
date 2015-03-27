@@ -2,8 +2,8 @@
 CS 539 Project
 ==============
 
-My implementation of the assignments.
+Renders a simple terrain and boids that fly in a sphere surrounding the landscape (currently unaware of the world).
 
 Controls
---------------
-See Controls.pdf
+---
+See [Controls.pdf](Controls.pdf) for more information
