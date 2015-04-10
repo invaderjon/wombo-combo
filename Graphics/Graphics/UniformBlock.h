@@ -17,6 +17,10 @@ namespace graphics
 		UniformBlock(GEint program, const string& name, GEint index);
 		// destroys a block
 		~UniformBlock();
+		// gets the block's id
+		inline ID id() const;
+		// binds the block
+		inline void bind(ID id);
 		// gets the block's name
 		inline const string& name() const;
 		// gets the block's program
@@ -34,6 +38,8 @@ namespace graphics
 	private:
 		// binds the buffer
 		void bind();
+		// the block's id
+		ID mId;
 		// the block's program
 		GEint mProgram;
 		// the block's index

@@ -35,4 +35,7 @@ namespace graphics
 
 	// enum
 	typedef GLenum GEenum;
+
+	// id
+	typedef GEuint ID;
 }

@@ -164,6 +164,21 @@ void Engine::initGL() {
 	// creates oct tree program
 	mOTProgram = new Program(&shaders[0], 2);
 
+	// releases the shaders
+	shaders[0].release();
+	shaders[1].release();
+
+	// creates solid color testing program
+	shaders[0] = Shader("sh_vert_330.glsl", GL_VERTEX_SHADER);
+	shaders[1] = Shader("sh_frag_solid.glsl", GL_FRAGMENT_SHADER);
+
+	// creates solid color testing program
+	mTProgram = new Program(&shaders[0], 2);
+
+	// releases the shaders
+	shaders[0].release();
+	shaders[1].release();
+
 	//creates flock program
 	shaders[0] = Shader("sh_vert_flock.glsl", GL_VERTEX_SHADER);
 	shaders[1] = Shader("sh_frag_flock.glsl", GL_FRAGMENT_SHADER);
@@ -203,10 +218,13 @@ void Engine::initEngine()
 	mInputManager->addListener(mCamera);
 
 	// test height map
-	loadHeightMap();
+	//loadHeightMap();
 
 	// test flocking
-	loadFlock();
+	//loadFlock();
+
+	// tests the sphere
+	loadSphere();
 }
 
 void Engine::loadHeightMap()
@@ -225,6 +243,13 @@ void Engine::loadFlock()
 	glUseProgram(mFProgram->id());
 	mFlock = new Flock(250, 10.0f);
 	mFlock->push(mFProgram);
+}
+
+void Engine::loadSphere()
+{
+	glUseProgram(mTProgram->id());
+	mSphere = new IcoSphere(1.0f, 3);
+	mSphere->push(mTProgram);
 }
 
 void Engine::loop()
@@ -253,8 +278,9 @@ void Engine::update(GEdouble elapsed)
 {
 	// updates the heightmap
 	Mat4 view = mCamera->view();
-	mHeightMap->update(&view, elapsed);
-	mFlock->update(&view, elapsed);
+	//mHeightMap->update(&view, elapsed);
+	//mFlock->update(&view, elapsed);
+	mSphere->update(&view, elapsed);
 }
 
 void Engine::render()
@@ -263,7 +289,7 @@ void Engine::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// heightmap
-	glUseProgram(mHMProgram->id());
+	/*glUseProgram(mHMProgram->id());
 	glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
@@ -283,7 +309,14 @@ void Engine::render()
 	glUniformMatrix4fv(mFProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mFProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
-	mFlock->render(mFProgram);
+	mFlock->render(mFProgram);*/
+
+	// renders sphere
+	glUseProgram(mTProgram->id());
+	glUniformMatrix4fv(mTProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
+	mSphere->render(mTProgram);
 
 	// draw
 	glfwSwapBuffers(mWindow);

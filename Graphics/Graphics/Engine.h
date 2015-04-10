@@ -16,6 +16,7 @@
 #include "Texture.h"
 #include "Octree.h"
 #include "Flock.h"
+#include "IcoSphere.h"
 
 #define TARGET_FRAME_TIME 16666667
 
@@ -33,7 +34,6 @@ namespace graphics
 {
 	class Engine
 	{
-
 	public:
 		Engine();
 		~Engine();
@@ -47,6 +47,7 @@ namespace graphics
 		void initEngine();
 		void loadHeightMap();
 		void loadFlock();
+		void loadSphere();
 		void loop();
 		void update(GEdouble elapsed);
 		void render();
@@ -63,9 +64,11 @@ namespace graphics
 		InputManager* mInputManager;
 		Camera* mCamera;
 		Program* mHMProgram;
+		Program* mTProgram;
 		Program* mOTProgram;
 		Program* mFProgram;
 		HeightMap* mHeightMap;
+		IcoSphere* mSphere;
 		Octree* mOctree;
 		Flock* mFlock;
 	};

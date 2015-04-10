@@ -12,6 +12,16 @@ UniformBlock::~UniformBlock()
 {
 }
 
+ID UniformBlock::id() const
+{
+	return mId;
+}
+
+void UniformBlock::bind(ID id)
+{
+	mId = id;
+}
+
 const string& UniformBlock::name() const
 {
 	return mName;

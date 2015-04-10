@@ -7,23 +7,11 @@
 // id. This can also be used to avoid casts when checking for equality.
 namespace graphics
 {
-	// id type
-	typedef GEuint ID;
-
 	class IIdentifiable
 	{
-	private:
-		// globla
-		static ID sCurId;		
-		static ID nextId();
-
-		// instance
-		ID mId;
-	public:
-		IIdentifiable();
-		~IIdentifiable();
-				
-		inline virtual ID id() const;
+	public:				
+		virtual ID id() const = 0;
+		virtual void bind(ID id) = 0;
 	};
 
 }
