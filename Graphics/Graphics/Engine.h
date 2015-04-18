@@ -17,6 +17,7 @@
 #include "Octree.h"
 #include "Flock.h"
 #include "IcoSphere.h"
+#include "DumbParticleEffect.h"
 
 #define TARGET_FRAME_TIME 16666667
 
@@ -48,6 +49,7 @@ namespace graphics
 		void loadHeightMap();
 		void loadFlock();
 		void loadSphere();
+		void loadDumbParticle();
 		void loop();
 		void update(GEdouble elapsed);
 		void render();
@@ -67,9 +69,11 @@ namespace graphics
 		Program* mTProgram;
 		Program* mOTProgram;
 		Program* mFProgram;
+		Program* mDPProgram;
 		HeightMap* mHeightMap;
 		IcoSphere* mSphere;
 		Octree* mOctree;
 		Flock* mFlock;
+		DumbParticleEffect* mDumbEffect;
 	};
 }

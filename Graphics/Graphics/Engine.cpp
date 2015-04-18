@@ -112,7 +112,8 @@ void Engine::initGL() {
 	// textures
 	glEnable(GL_TEXTURE_2D);
 
-	glClearColor(.5f, .5f, .5f, 1.0f);
+	//glClearColor(.5f, .5f, .5f, 1.0f);
+	glClearColor(0, 0, 0, 1);
 
 	/////////////////////////////////
 	// Shader Loading
@@ -190,6 +191,23 @@ void Engine::initGL() {
 	shaders[0].release();
 	shaders[1].release();
 
+	// creates dumb particle program
+	shaders[0] = Shader("sh_vert_dumb_particle.glsl", GL_VERTEX_SHADER);
+	shaders[1] = Shader("sh_frag_dumb_particle.glsl", GL_FRAGMENT_SHADER);
+
+	// creates dumb particle program
+	mDPProgram = new Program(&shaders[0], 2);
+	glUseProgram(mDPProgram->id());
+	glEnable(GL_PROGRAM_POINT_SIZE);
+	glEnable(GL_POINT_SMOOTH);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_DST_ALPHA, GL_ONE);
+	glUseProgram(0);
+
+	// release the shaders
+	shaders[0].release();
+	shaders[1].release();
+
 	// starts off with the height map
 	glUseProgram(mHMProgram->id());
 	
@@ -225,6 +243,9 @@ void Engine::initEngine()
 
 	// tests the sphere
 	loadSphere();
+
+	// loads the dumb particle effect
+	loadDumbParticle();
 }
 
 void Engine::loadHeightMap()
@@ -234,7 +255,8 @@ void Engine::loadHeightMap()
 	mHeightMap->push(mHMProgram);
 
 	glUseProgram(mOTProgram->id());
-	mOctree = new Octree(&mHeightMap->mVertices[0], &mHeightMap->mFaces[0], mHeightMap->mFaces.size());
+	mOctree = new Octree();
+	//&mHeightMap->mVertices[0], &mHeightMap->mFaces[0], mHeightMap->mFaces.size()
 	mOctree->push(mOTProgram);
 }
 
@@ -252,6 +274,13 @@ void Engine::loadSphere()
 	mSphere->push(mTProgram);
 }
 
+void Engine::loadDumbParticle()
+{
+	glUseProgram(mDPProgram->id());
+	mDumbEffect = new DumbParticleEffect(5000);
+	mDumbEffect->push(mDPProgram);
+}
+
 void Engine::loop()
 {
 
@@ -262,7 +291,7 @@ void Engine::loop()
 	{
 		start = chrono::high_resolution_clock::now();
 		measure();
-		update(diff / 1000000000.0f);
+		update(duration.count() / 1000000000.0f);
 		render();
 		glfwPollEvents();
 		end = chrono::high_resolution_clock::now();
@@ -271,6 +300,8 @@ void Engine::loop()
 		if (diff > 0) {
 			Sleep(diff / 1000000);
 		}
+		end = chrono::high_resolution_clock::now();
+		duration = chrono::duration_cast<chrono::nanoseconds>(end - start);
 	}
 }
 
@@ -281,6 +312,7 @@ void Engine::update(GEdouble elapsed)
 	//mHeightMap->update(&view, elapsed);
 	//mFlock->update(&view, elapsed);
 	mSphere->update(&view, elapsed);
+	mDumbEffect->update(&view, elapsed);
 }
 
 void Engine::render()
@@ -304,7 +336,7 @@ void Engine::render()
 
 	// renders the octree
 	mOctree->render(mOTProgram);
-
+	
 	glUseProgram(mFProgram->id());
 	glUniformMatrix4fv(mFProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mFProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
@@ -312,11 +344,18 @@ void Engine::render()
 	mFlock->render(mFProgram);*/
 
 	// renders sphere
-	glUseProgram(mTProgram->id());
-	glUniformMatrix4fv(mTProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	//glUseProgram(mTProgram->id());
+	//glUniformMatrix4fv(mTProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	//glUniformMatrix4fv(mTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
-	mSphere->render(mTProgram);
+	//mSphere->render(mTProgram);
+
+	// renders particles
+	glUseProgram(mDPProgram->id());
+	glUniformMatrix4fv(mDPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mDPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
+	mDumbEffect->render(mDPProgram);
 
 	// draw
 	glfwSwapBuffers(mWindow);

@@ -94,4 +94,13 @@ namespace graphics
 		sTri() : a(0), b(0), c(0) { }
 		sTri(GEuint A, GEuint B, GEuint C) : a(A), b(B), c(C) { }
 	}				Tri;
+
+	typedef	struct	sVertData
+	{
+		void*		data;
+		void*		offset;
+		GEint		size;
+		void*		stride;
+		sVertData() : data(NULL), offset(NULL), stride(NULL) { }
+	}				VertData;
 }

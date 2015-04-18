@@ -60,6 +60,7 @@ void IcoSphere::render(Program* program)
 	glUniformMatrix4fv(program->resource(MAT_MODEL), 1, GL_FALSE, glm::value_ptr(mModelMatrix));
 	glUniformMatrix3fv(program->resource(MAT_NORMAL), 1, GL_FALSE, glm::value_ptr(mNormalMatrix));
 
+
 	// draw height map
 	glBindVertexArray(mVAO);
 	glDrawElements(GL_TRIANGLES, mFaces.size() * 3, GL_UNSIGNED_INT, 0);

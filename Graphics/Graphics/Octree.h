@@ -1,62 +1,102 @@
 #pragma once
 
+#include <unordered_map>
 #include <vector>
+#include <list>
 #include "Graphics.h"
 #include "Buffers.h"
 #include "IRenderable.h"
 #include "Program.h"
 
-#define GE_OCTREE_TRI_MAX 300
+#define GE_OCTREE_TRI_THRESHOLD 300
 #define GE_OCTREE_DEPTH_MAX 3
 
 namespace graphics
 {
 	using namespace std;
 
-	class OTLeaf
-	{
-	public:
-		OTLeaf(GEuint depth, Vert* verts, Tri* faces, GEuint count, const Vec4& cube);
-
-		const Vec4& cube() const;
-
-		// appends drawing information
-		void append(vector<Vec3>& verts, vector<GEuint>& indices);
-	private:
-		// faces
-		Tri* mFaces;
-		// count
-		GEuint mCount;
-		// children
-		OTLeaf* mLeaves;
-		// cube size
-		Vec4 mCube; // x, y, z, s (where s is side length / 2)
-		// depth
-		GEuint mDepth;
-
-		// determines if a cube contains a triangle
-		inline GEboolean cubeContains(const Vec3& pos, const Vec4& cube) const;
-
-		// determines if a cube contains a triangle
-		inline GEboolean cubeContains(Vert* verts, const Tri& face, const Vec4& cube) const;
-
-		// creates new leaf
-		void createLeaf(OTLeaf* leaf, GEuint depth, Vert* verts, Tri* faces, GEuint count, const Vec4& cube) const;
-	};
+	class GraphicsEngine;
 
 	class Octree
 		: IRenderable
 	{
 
 	private:
+		//
+		// nested structs
+		//
+
+		typedef struct	sOTRange
+		{
+			GEint		offset;
+			GEint		count;
+			ID			id;
+			sOTRange() : offset(-1), count(-1), id(GE_ID_INVALID) { }
+			sOTRange(GEint start, GEint number, ID Id) : offset(start), count(number), id(Id) { }
+		}				OTRange;
+
+		//
+		// nested classes
+		//
+
+		class OTLeaf
+		{
+		public:
+			// uninitialied leaf
+			OTLeaf() : mLeafs(NULL), mTree(NULL), mDepth(-1), mCube(-1), mFaces(), mOffsets() { }
+
+			// sets up a basic leaf
+			OTLeaf(Octree* tree, GEuint depth, const Vec4& cube);
+
+			const Vec4& cube() const;
+
+			// pushes an item to the leaf (assumes that the points each contain at least 3 floats)
+			// this is the only method that should be called by the octree
+			void push(ID id, Tri* tris, GEint count, const VertData& data, const Mat4& trans);
+		private:
+			// octree reference (for getting vertex information)
+			Octree* mTree;
+			// indices (as triples in the forms of Tris)
+			vector<Tri> mFaces;
+			// object offsets (to go from id to offset)
+			unordered_map<ID, OTRange> mOffsets;
+			// children
+			OTLeaf* mLeafs;
+			// cube size
+			Vec4 mCube; // x, y, z, s (where s is side length / 2)
+			// depth
+			GEuint mDepth;
+			// adds an item to the list
+			void add(ID id, Tri* tris, GEint count, const VertData& data, const Mat4& trans);
+
+			// clears all the data regarding a given id
+			void remove(ID id);
+
+			// TODO: pass all pre-existing items to the children (need to figure out a way to get access to the data)
+			// creates children [if necessary] and returns the number of children or error
+			GEint grow();
+
+			// copies all items that are inside this leaf to a buffer, returns number contained or error
+			GEint copyContained(vector<Tri>& buffer, Tri* tris, GEint count, const VertData& data, const Mat4& trans);
+
+			// determines if a cube contains a triangle
+			inline GEboolean contains(const Vec3& pos, const Mat4& trans) const;
+
+			// determines if a cube contains a triangle
+			inline GEboolean contains(const VertData& data, const Tri& face, const Mat4& trans) const;
+		};
+
+		//
+		// instance
+		//
+
+		// root node
 		OTLeaf* mRoot;
-		vector<Vec3> mVertices;
-		vector<GEuint> mIndices;
 
 		void generateModel();
 	public:
-		Octree(Vert* verts, Tri* faces, GEuint faceCount);
-		Octree(Vert* verts, Tri* faces, GEuint faceCount, const Vec4& cube);
+		Octree();
+		Octree(const Vec4& cube);
 		~Octree();
 
 		void push(Program* program);
