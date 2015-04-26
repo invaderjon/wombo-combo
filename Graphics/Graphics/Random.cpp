@@ -94,7 +94,7 @@ GEfloat Random::next(GEfloat minimum, GEfloat maximum)
 	GEuint r;
 	random(r);
 	GEuint m = 0xFFFFFFFF;
-	GEfloat mult = static_cast <GEfloat> (r) / static_cast <GEfloat> (m);
+	GEfloat mult = static_cast <GEfloat> (rand()) / static_cast <GEfloat> (RAND_MAX);
 	GEfloat diff = maximum - minimum;
 	return mult*diff + minimum;
 }

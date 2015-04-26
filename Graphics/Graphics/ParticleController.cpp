@@ -56,7 +56,7 @@ void ParticleController::function(ParticleData::Particle& p, GEdouble elapsed)
 	p.age += GEfloat(elapsed);
 	
 	// updates acceleration
-	p.acc = Vec3(0, sinf(p.age), 0);
+	p.acc = Vec3(0, mRand.next(-1.0f, 1.0f) + sinf(p.age), 0);
 
 	// applies acceleration
 	p.vel += p.acc * GEfloat(elapsed);
@@ -96,7 +96,7 @@ void ParticleController::add(GEint count)
 
 		// initialize new particle
 		ParticleData::Particle p = mData[mData.alive()];
-		p.pos = Vec3(mRand.next(-.25f, .25f), mRand.next(-.25f, .25f), 0);
+		p.pos = Vec3(mRand.next(-.25f, .25f), mRand.next(-.05f, .05f), 0);
 		p.vel = Vec3(0, 0, mRand.next(.75f, 1.5f));
 		p.acc = Vec3(0.0f, 0.0f, 0.0f);
 		p.col = Vec4(1.0, 1.0, 1.0, 1.0);

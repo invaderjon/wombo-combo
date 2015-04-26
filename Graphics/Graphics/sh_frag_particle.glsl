@@ -9,8 +9,12 @@ uniform sampler2D tex;
 void main()
 {
 	// gets texture unit
-	vec4 tex_unit = texture(tex, uv);
+	vec3 tex_unit = vec3(texture(tex, uv));
+
+	float r = length(normalize(uv - vec2(.5,.5)));
+	r = (r < 0) ? -r : r;
+
 
 	// caculate final color
-	gl_FragColor = tex_unit;
+	gl_FragColor = vec4(tex_unit, r);
 }

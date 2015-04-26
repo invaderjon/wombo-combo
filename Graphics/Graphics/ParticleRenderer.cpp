@@ -85,8 +85,8 @@ void ParticleRenderer::render(Program* program)
 	if (mData.srcFunc() != GL_ONE || mData.dstFunc() != GL_ZERO)
 	{
 		// enables blending
-		//glEnable(GL_BLEND);
-		//glBlendFunc(mData.srcFunc(), mData.dstFunc());
+		glEnable(GL_BLEND);
+		glBlendFunc(mData.srcFunc(), mData.dstFunc());
 	}
 	else // blending modes have no impact, so disable
 		glDisable(GL_BLEND);
@@ -104,6 +104,4 @@ void ParticleRenderer::render(Program* program)
 	glBindVertexArray(mVAO);
 	glDrawElementsInstanced(GL_TRIANGLES, 2 * 3, GL_UNSIGNED_INT, 0, mData.alive());
 	glBindVertexArray(0);
-
-	glDisable(GL_BLEND);
 }

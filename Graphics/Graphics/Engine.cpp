@@ -299,7 +299,7 @@ void Engine::loadDumbParticle()
 void Engine::loadParticleSystem()
 {
 	glUseProgram(mPProgram->id());
-	mParticleData = new ParticleData(10000, GL_DST_ALPHA, GL_ONE);
+	mParticleData = new ParticleData(10000, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	mParticleController = new ParticleController(*mParticleData);
 	mParticleRenderer = new ParticleRenderer(*mParticleData, "Resources/textures/particle/smoke.png");
 	mParticleRenderer->push(mPProgram);
@@ -384,6 +384,7 @@ void Engine::render()
 	//mDumbEffect->render(mDPProgram);
 
 	glUseProgram(mPProgram->id());
+	glEnable(GL_BLEND);
 	glUniformMatrix4fv(mPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
