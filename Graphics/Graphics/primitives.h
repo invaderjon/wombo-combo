@@ -17,6 +17,7 @@ namespace graphics
 	typedef GLfloat GEfloat;
 
 	// signed ints
+	typedef long long GElong;
 	typedef GLint GEint;
 	typedef GLshort GEshort;
 	typedef GLbyte GEbyte;

@@ -204,6 +204,18 @@
     <ClCompile Include="DumbParticleEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -238,6 +250,12 @@
       <Filter>Source Files\Shaders\Vertex</Filter>
     </None>
     <None Include="sh_frag_dumb_particle.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="sh_vert_particle.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="sh_frag_particle.glsl">
       <Filter>Source Files\Shaders\Fragment</Filter>
     </None>
   </ItemGroup>
@@ -396,6 +414,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

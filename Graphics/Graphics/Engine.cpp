@@ -197,16 +197,28 @@ void Engine::initGL() {
 
 	// creates dumb particle program
 	mDPProgram = new Program(&shaders[0], 2);
+
+	// release the shaders
+	shaders[0].release();
+	shaders[1].release();
+
+	// creates dumb particle program
+	shaders[0] = Shader("sh_vert_particle.glsl", GL_VERTEX_SHADER);
+	shaders[1] = Shader("sh_frag_particle.glsl", GL_FRAGMENT_SHADER);
+
+	// creates dumb particle program
+	mPProgram = new Program(&shaders[0], 2);
+
+	// release the shaders
+	shaders[0].release();
+	shaders[1].release();
+
 	glUseProgram(mDPProgram->id());
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glEnable(GL_POINT_SMOOTH);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_DST_ALPHA, GL_ONE);
 	glUseProgram(0);
-
-	// release the shaders
-	shaders[0].release();
-	shaders[1].release();
 
 	// starts off with the height map
 	glUseProgram(mHMProgram->id());
@@ -242,10 +254,13 @@ void Engine::initEngine()
 	//loadFlock();
 
 	// tests the sphere
-	loadSphere();
+	//loadSphere();
 
 	// loads the dumb particle effect
-	loadDumbParticle();
+	//loadDumbParticle();
+
+	// loads real particle system
+	loadParticleSystem();
 }
 
 void Engine::loadHeightMap()
@@ -281,6 +296,15 @@ void Engine::loadDumbParticle()
 	mDumbEffect->push(mDPProgram);
 }
 
+void Engine::loadParticleSystem()
+{
+	glUseProgram(mPProgram->id());
+	mParticleData = new ParticleData(10000, GL_DST_ALPHA, GL_ONE);
+	mParticleController = new ParticleController(*mParticleData);
+	mParticleRenderer = new ParticleRenderer(*mParticleData, "Resources/textures/particle/smoke.png");
+	mParticleRenderer->push(mPProgram);
+}
+
 void Engine::loop()
 {
 
@@ -311,8 +335,10 @@ void Engine::update(GEdouble elapsed)
 	Mat4 view = mCamera->view();
 	//mHeightMap->update(&view, elapsed);
 	//mFlock->update(&view, elapsed);
-	mSphere->update(&view, elapsed);
-	mDumbEffect->update(&view, elapsed);
+	//mSphere->update(&view, elapsed);
+	//mDumbEffect->update(&view, elapsed);
+	mParticleController->update(elapsed);
+	mParticleRenderer->update(&view, elapsed);
 }
 
 void Engine::render()
@@ -321,15 +347,15 @@ void Engine::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// heightmap
-	/*glUseProgram(mHMProgram->id());
-	glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	//glUseProgram(mHMProgram->id());
+	//glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	//glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 
 	// renders the heightmap
-	mHeightMap->render(mHMProgram);
+	//mHeightMap->render(mHMProgram);
 
-	// octree
+	/*// octree
 	glUseProgram(mOTProgram->id());
 	glUniformMatrix4fv(mOTProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mOTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
@@ -351,11 +377,17 @@ void Engine::render()
 	//mSphere->render(mTProgram);
 
 	// renders particles
-	glUseProgram(mDPProgram->id());
-	glUniformMatrix4fv(mDPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mDPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	//glUseProgram(mDPProgram->id());
+	//glUniformMatrix4fv(mDPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	//glUniformMatrix4fv(mDPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
-	mDumbEffect->render(mDPProgram);
+	//mDumbEffect->render(mDPProgram);
+
+	glUseProgram(mPProgram->id());
+	glUniformMatrix4fv(mPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+
+	mParticleRenderer->render(mPProgram);
 
 	// draw
 	glfwSwapBuffers(mWindow);

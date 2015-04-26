@@ -52,7 +52,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\libraries\glew\Release2\Win32;$(SolutionDir)\libraries\glfw\lib-vc2013;$(SolutionDir)\libraries\devil;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;DevIL.lib;ILU.lib;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,10 +93,14 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Octree.cpp" />
+    <ClCompile Include="ParticleController.cpp" />
+    <ClCompile Include="ParticleData.cpp" />
+    <ClCompile Include="ParticleRenderer.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="ResourceDb.cpp" />
     <ClCompile Include="ResourceIds.h" />
     <ClCompile Include="Resources.cpp" />
@@ -119,6 +123,7 @@
     <None Include="sh_frag_octree.glsl">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="sh_frag_particle.glsl" />
     <None Include="sh_frag_solid.glsl" />
     <None Include="sh_vert_330.glsl">
       <DeploymentContent>true</DeploymentContent>
@@ -129,6 +134,7 @@
     <None Include="sh_vert_dumb_particle.glsl" />
     <None Include="sh_vert_flock.glsl" />
     <None Include="sh_vert_octree.glsl" />
+    <None Include="sh_vert_particle.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcBallCamera.h" />
@@ -163,6 +169,9 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Octree.h" />
+    <ClInclude Include="ParticleController.h" />
+    <ClInclude Include="ParticleData.h" />
+    <ClInclude Include="ParticleRenderer.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Graphics.h" />
@@ -170,6 +179,7 @@
     <ClInclude Include="Primitives.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="ResourceDb.h" />
     <ClInclude Include="resource.h" />

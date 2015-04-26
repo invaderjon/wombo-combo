@@ -1,23 +1,33 @@
 #include "Texture.h"
+#include <IL/il.h>
+#include <IL/ilu.h>
 
 using namespace graphics;
 
 Texture::Texture(string path, GEuint wrapMode, GEuint texId)
 {
-	CImg<unsigned char> img(path.c_str());
-	unsigned char* data = (unsigned char*)malloc(3 * sizeof(unsigned char) * img.width() * img.height());
+	// creates the image buffer
+	ILuint imgId = 0;
+	ilInit();
+	ilGenImages(1, &imgId);
+	ilBindImage(imgId);
+	
+	// loads the image
+	ilLoadImage(path.c_str());
 
-	// converts cimg's planar representation to rgb representation
-	for (int y = 0; y < img.height(); y++)
-	{
-		for (int x = 0; x < img.width(); x++)
-		{
-			int px = 3 * x;
-			data[y * img.width() * 3 + px] = img(x, y, 0, 0);
-			data[y * img.width() * 3 + px + 1] = img(x, y, 0, 1);
-			data[y * img.width() * 3 + px + 2] = img(x, y, 0, 2);
-		}
-	}
+	// determines image size
+	mWidth = ilGetInteger(IL_IMAGE_WIDTH);
+	mHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+	
+	// creates the raw data buffer
+	mRawData = (GEubyte*)malloc(4 * sizeof(GEubyte) * mWidth * mHeight);
+	
+	// extracts pixels
+	ilCopyPixels(0, 0, 0, mWidth, mHeight, 1, IL_RGBA, IL_UNSIGNED_BYTE, mRawData);
+
+	// unbinds and deletes image from DevIL
+	ilBindImage(0);
+	ilDeleteImage(imgId);
 
 	// creates texture
 	mId = texId;
@@ -27,7 +37,7 @@ Texture::Texture(string path, GEuint wrapMode, GEuint texId)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, img.width(), img.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mRawData);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// release the memory
@@ -47,4 +57,19 @@ GEuint Texture::handle() const
 GEuint Texture::id() const
 {
 	return mId;
+}
+
+GEubyte* Texture::raw() const
+{
+	return mRawData;
+}
+
+GEint Texture::width() const
+{
+	return mWidth;
+}
+
+GEint Texture::height() const
+{
+	return mHeight;
 }
