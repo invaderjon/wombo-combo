@@ -73,7 +73,10 @@ void Octree::render(Program* program)
 void Octree::intersect(ID id, const Frustum& frustum, vector<Tri>& buffer)
 {
 	// use an unordered map to prevent duplicates
-	unordered_set<Tri> set;
+	unordered_set<Tri>& set = mBufferSet;
+	
+	// removes all items from the set
+	set.clear();
 
 	// add all the verts already in the buffer to the map
 	for (Tri tri : buffer)

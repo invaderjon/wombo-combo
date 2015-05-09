@@ -115,8 +115,25 @@ namespace graphics
 
 		// root node
 		OTLeaf* mRoot;
+
+		// debug vertices
 		vector<Vec3> mVertices;
+
+		// debug indices
 		vector<GEuint> mIndices;
+
+		// Used by intersect to avoid reallocating memory
+		// for a set every time the function is called.		
+		//
+		// Although it might be a slight memory pit it's probably
+		// better to have a giant structure in memory than to have to
+		// reallocate and deallocate the structure every frame.
+		// More importantly: It lets me not have to modify existing code which
+		//                   I don't have time to finish. (final exams)
+		//
+		// TODO: Clean this up, implement an easy Tri hashing function and manually track
+		//       whether or not the vertex is already in the buffer.
+		unordered_set<Tri> mBufferSet;
 
 		void generateModel();
 	public:

@@ -1,6 +1,7 @@
 #include "Octree.h"
 
 using namespace graphics;
+
 Octree::OTLeaf::OTLeaf(Octree* tree, GEuint depth, const Vec4& cube)
 	: mTree(tree), mLeafs(NULL), mFaces(), mOffsets(), mDepth(depth), mCube(cube)
 {	
