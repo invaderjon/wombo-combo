@@ -1,12 +1,14 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <list>
 #include "Graphics.h"
 #include "Buffers.h"
 #include "IRenderable.h"
 #include "Program.h"
+#include "Frustum.h"
 
 #define GE_OCTREE_TRI_THRESHOLD 300
 #define GE_OCTREE_DEPTH_MAX 3
@@ -48,11 +50,21 @@ namespace graphics
 			// sets up a basic leaf
 			OTLeaf(Octree* tree, GEuint depth, const Vec4& cube);
 
+			// gets the vector that describes the leaf's binding cube
 			const Vec4& cube() const;
+
+			// builds the octree model
+			void build(vector<Vec3>& verts, vector<GEuint>& indices);
+
+			// intersects the octree with the given frustum
+			void intersect(ID id, const Frustum& frustum, unordered_set<Tri>& buffer);
 
 			// pushes an item to the leaf (assumes that the points each contain at least 3 floats)
 			// this is the only method that should be called by the octree
 			void push(ID id, Tri* tris, GEint count, const VertData& data, const Mat4& trans);
+
+			// easier push since I never got around to generalizing objects
+			void push(ID id, Tri* tris, Vert* verts, GEint count);
 		private:
 			// octree reference (for getting vertex information)
 			Octree* mTree;
@@ -68,6 +80,8 @@ namespace graphics
 			GEuint mDepth;
 			// adds an item to the list
 			void add(ID id, Tri* tris, GEint count, const VertData& data, const Mat4& trans);
+			// adds an item to the list
+			void add(ID id, Tri* tris, Vert* verts, GEint count);
 
 			// clears all the data regarding a given id
 			void remove(ID id);
@@ -79,11 +93,20 @@ namespace graphics
 			// copies all items that are inside this leaf to a buffer, returns number contained or error
 			GEint copyContained(vector<Tri>& buffer, Tri* tris, GEint count, const VertData& data, const Mat4& trans);
 
+			// copies all items that are inside this leaf to a buffer, returns number contained or error
+			GEint copyContained(vector<Tri>& buffer, Tri* tris, Vert* verts, GEint count);
+
 			// determines if a cube contains a triangle
 			inline GEboolean contains(const Vec3& pos, const Mat4& trans) const;
 
 			// determines if a cube contains a triangle
+			inline GEboolean contains(const Vec3& pos) const;
+
+			// determines if a cube contains a triangle
 			inline GEboolean contains(const VertData& data, const Tri& face, const Mat4& trans) const;
+
+			// determines if a cube contains a triangle
+			inline GEboolean contains(Vert* vert, const Tri& face) const;
 		};
 
 		//
@@ -92,6 +115,8 @@ namespace graphics
 
 		// root node
 		OTLeaf* mRoot;
+		vector<Vec3> mVertices;
+		vector<GEuint> mIndices;
 
 		void generateModel();
 	public:
@@ -102,6 +127,8 @@ namespace graphics
 		void push(Program* program);
 		void update(Mat4* viewMatrix, GEdouble elapsed);
 		void render(Program* program);
-	};
 
+		// intersects an item in the octree with the frustum
+		void intersect(ID id, const Frustum& frustum, vector<Tri>& buffer);
+	};
 }

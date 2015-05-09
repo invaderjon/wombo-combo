@@ -93,6 +93,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Octree.cpp" />
+    <ClCompile Include="OTLeaf.cpp" />
     <ClCompile Include="ParticleController.cpp" />
     <ClCompile Include="ParticleData.cpp" />
     <ClCompile Include="ParticleRenderer.cpp" />

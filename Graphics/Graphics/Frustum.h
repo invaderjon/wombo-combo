@@ -9,6 +9,8 @@ namespace graphics
 	public:
 		Frustum();
 		~Frustum();
+
+		bool contains(const Vec4& cube) const;
 	};
 
 }

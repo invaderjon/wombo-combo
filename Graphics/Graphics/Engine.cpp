@@ -212,14 +212,7 @@ void Engine::initGL() {
 	// release the shaders
 	shaders[0].release();
 	shaders[1].release();
-
-	glUseProgram(mDPProgram->id());
-	glEnable(GL_PROGRAM_POINT_SIZE);
-	glEnable(GL_POINT_SMOOTH);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_DST_ALPHA, GL_ONE);
-	glUseProgram(0);
-
+	
 	// starts off with the height map
 	glUseProgram(mHMProgram->id());
 	
@@ -248,19 +241,7 @@ void Engine::initEngine()
 	mInputManager->addListener(mCamera);
 
 	// test height map
-	//loadHeightMap();
-
-	// test flocking
-	//loadFlock();
-
-	// tests the sphere
-	//loadSphere();
-
-	// loads the dumb particle effect
-	//loadDumbParticle();
-
-	// loads real particle system
-	loadParticleSystem();
+	loadHeightMap();
 }
 
 void Engine::loadHeightMap()
@@ -271,7 +252,6 @@ void Engine::loadHeightMap()
 
 	glUseProgram(mOTProgram->id());
 	mOctree = new Octree();
-	//&mHeightMap->mVertices[0], &mHeightMap->mFaces[0], mHeightMap->mFaces.size()
 	mOctree->push(mOTProgram);
 }
 
@@ -333,12 +313,13 @@ void Engine::update(GEdouble elapsed)
 {
 	// updates the heightmap
 	Mat4 view = mCamera->view();
-	//mHeightMap->update(&view, elapsed);
+	mHeightMap->update(&view, elapsed);
+	mOctree->update(&view, elapsed);
 	//mFlock->update(&view, elapsed);
 	//mSphere->update(&view, elapsed);
 	//mDumbEffect->update(&view, elapsed);
-	mParticleController->update(elapsed);
-	mParticleRenderer->update(&view, elapsed);
+	//mParticleController->update(elapsed);
+	//mParticleRenderer->update(&view, elapsed);
 }
 
 void Engine::render()
@@ -347,15 +328,15 @@ void Engine::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// heightmap
-	//glUseProgram(mHMProgram->id());
-	//glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	//glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	glUseProgram(mHMProgram->id());
+	glUniformMatrix4fv(mHMProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	glUniformMatrix4fv(mHMProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
 
 	// renders the heightmap
-	//mHeightMap->render(mHMProgram);
+	mHeightMap->render(mHMProgram);
 
-	/*// octree
+	// octree
 	glUseProgram(mOTProgram->id());
 	glUniformMatrix4fv(mOTProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mOTProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
@@ -363,7 +344,7 @@ void Engine::render()
 	// renders the octree
 	mOctree->render(mOTProgram);
 	
-	glUseProgram(mFProgram->id());
+	/*glUseProgram(mFProgram->id());
 	glUniformMatrix4fv(mFProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
 	glUniformMatrix4fv(mFProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
@@ -383,12 +364,12 @@ void Engine::render()
 
 	//mDumbEffect->render(mDPProgram);
 
-	glUseProgram(mPProgram->id());
-	glEnable(GL_BLEND);
-	glUniformMatrix4fv(mPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
-	glUniformMatrix4fv(mPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
+	//glUseProgram(mPProgram->id());
+	//glEnable(GL_BLEND);
+	//glUniformMatrix4fv(mPProgram->resource(MAT_PROJECTION), 1, GL_FALSE, glm::value_ptr(mCamera->projection()));
+	//glUniformMatrix4fv(mPProgram->resource(MAT_VIEW), 1, GL_FALSE, glm::value_ptr(mCamera->view()));
 
-	mParticleRenderer->render(mPProgram);
+	//mParticleRenderer->render(mPProgram);
 
 	// draw
 	glfwSwapBuffers(mWindow);
