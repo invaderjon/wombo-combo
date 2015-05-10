@@ -12,6 +12,7 @@
 #include "Program.h"
 #include "Buffers.h"
 #include "ShaderStructs.h"
+#include "Octree.h"
 #include "Texture.h"
 
 using namespace std; 
@@ -29,6 +30,7 @@ namespace graphics
 		virtual void push(Program* program);
 		virtual void update(Mat4* viewMatrix, GEdouble elapsed);
 		virtual void render(Program* program);
+		virtual void cull(Octree* octree, const Frustum& frustum);
 		vector<Vert> mVertices;
 		vector<Tri>  mFaces;
 	private:
@@ -58,6 +60,7 @@ namespace graphics
 
 		// instance variables
 		GEfloat mMaxHeight;
+		GEint mDrawCount;
 		vector<Vec3> mFaceNormals;
 		Texture* grass;
 		Texture* dirt;

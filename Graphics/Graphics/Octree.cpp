@@ -75,18 +75,14 @@ void Octree::push(ID id, Tri* tris, Vert* verts, GEint count)
 	mRoot->push(id, tris, verts, count);
 }
 
-void Octree::intersect(ID id, const Frustum& frustum, vector<Tri>& buffer)
+GEint Octree::intersect(ID id, const Frustum& frustum, Tri* buffer)
 {
 	// use an unordered map to prevent duplicates
-	unordered_map<GEint, Tri>& map = mBufferSet;
+	//hash_map<GEint, Tri>& map = mBufferSet;
 	
 	// removes all items from the set
-	map.clear();
+	//map.clear();
 
 	// intersect with the octree
-	mRoot->intersect(id, frustum, map);
-
-	// copy the set back to the buffer
-	for (auto iter = map.begin(); iter != map.end(); ++iter)
-		buffer.push_back(iter->second);
+	return mRoot->intersect(id, frustum, buffer, /*map,*/ 0);
 }

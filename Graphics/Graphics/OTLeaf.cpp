@@ -67,15 +67,15 @@ void Octree::OTLeaf::build(vector<Vec3>& verts, vector<GEuint>& indices)
 	}
 }
 
-void Octree::OTLeaf::intersect(ID id, const Frustum& frustum, unordered_map<GEint, Tri>& buffer)
+GEint Octree::OTLeaf::intersect(ID id, const Frustum& frustum, Tri* buffer, /*hash_map<GEint, Tri>& map,*/ GEint number)
 {
 	// if the cube doesn't contain the id stop
 	if (!mOffsets.count(id))
-		return;
+		return number;
 
 	// stop if the frustum doesn't contain the cube
 	if (!frustum.contains(mCube))
-		return;
+		return number;
 
 	// iterator variable
 	int i;
@@ -85,10 +85,10 @@ void Octree::OTLeaf::intersect(ID id, const Frustum& frustum, unordered_map<GEin
 	{
 		// intersect with each child
 		for (i = 0; i < 8; ++i)
-			mLeafs[i].intersect(id, frustum, buffer);
+			number = mLeafs[i].intersect(id, frustum, buffer, /*map,*/ number);
 
 		// children will contain all the verts this does so stop
-		return;
+		return number;
 	}
 
 	// otherwise push all children id's range
@@ -96,14 +96,11 @@ void Octree::OTLeaf::intersect(ID id, const Frustum& frustum, unordered_map<GEin
 	Tri* tris = (&mFaces[0] + range.offset);
 	std::hash<GEint> hasher;
 	GEint hash;
+	
+	memcpy(buffer, tris, range.count);
+	number += range.count;
 
-	for (i = 0; i < range.count; ++i)
-	{
-		hash = hasher(tris[i].a);
-		hash = hasher(hash + tris[i].b);
-		hash = hasher(hash + tris[i].c);
-		buffer.insert(make_pair(hash, tris[i]));
-	}
+ 	return number;
 }
 
 void Octree::OTLeaf::push(ID id, Tri* tris, GEint count, const VertData& data, const Mat4& trans)

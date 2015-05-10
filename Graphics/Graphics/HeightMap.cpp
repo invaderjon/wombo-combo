@@ -3,7 +3,7 @@
 using namespace graphics;
 
 HeightMap::HeightMap(GEfloat maxHeight)
-	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals()
+	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals(), mDrawCount(0)
 {
 	GEfloat dif = .7;
 	GEfloat amb = 0x10 / GEfloat(0xFF);
@@ -17,7 +17,7 @@ HeightMap::HeightMap(GEfloat maxHeight)
 }
 
 HeightMap::HeightMap(string path, GEfloat maxHeight)
-	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals()
+	: mMaxHeight(maxHeight), mVertices(), mFaces(), mFaceNormals(), mDrawCount(0)
 {
 	grass = new Texture("Resources/textures/heightmap/grass.bmp", GL_REPEAT, 0);
 	dirt = new Texture("Resources/textures/heightmap/dirt.bmp", GL_REPEAT, 1);
@@ -32,9 +32,14 @@ HeightMap::~HeightMap()
 
 void HeightMap::push(Program* program)
 {
+	// pushes to the buffer
 	mVAO = Buffers::nextBuffer();
 	mVBO = Buffers::nextBuffer();
 	mIBO = Buffers::nextBuffer();
+
+	// appends some extra space for duplicate triangles when culling
+	for (int i = 0; i < mFaces.size() / 2; ++i)
+		mFaces.push_back(Tri());
 
 	// generates a vao
 	glGenVertexArrays(1, &mVAO);
@@ -105,8 +110,16 @@ void HeightMap::render(Program* program)
 
 	// draws height map
 	glBindVertexArray(mVAO);
-	glDrawElements(GL_TRIANGLES, mFaces.size()*3, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mDrawCount*3, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void HeightMap::cull(Octree* octree, const Frustum& frustum)
+{
+	mDrawCount = octree->intersect(42, frustum, &mFaces[0]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, mDrawCount * sizeof(Tri), &mFaces[0]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void HeightMap::loadImage(string path)

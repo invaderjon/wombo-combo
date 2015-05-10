@@ -127,3 +127,47 @@ const Mat4 Camera::projection() const
 {
 	return glm::perspectiveFov(mFOV, mWidth, mHeight, mNearPlane, mFarPlane);
 }
+
+const Frustum Camera::frustum() const
+{
+	// gets field of view
+	GEfloat fov = FOV();
+
+	// computes near and far distances
+	GEfloat near = nearPlane();
+	GEfloat far = farPlane();
+
+	// gets aspect ratio
+	GEfloat ar = aspectRatio();
+
+	// calculates near and far center points
+	Vec3 nearCenter = position() - forward() * near;
+	Vec3 farCenter = position() - forward() * far;
+
+	// calculates near and far sizes
+	GEfloat nearHeight = 2 * std::tanf(fov / 2) * near;
+	GEfloat farHeight = 2 * std::tanf(fov / 2) * far;
+	GEfloat nearWidth = nearHeight * ar;
+	GEfloat farWidth = farHeight * ar;
+
+	// near points
+	Vec3 ntl = nearCenter + up() * (nearHeight*0.5f) - right() * (nearWidth*0.5f);
+	Vec3 ntr = nearCenter + up() * (nearHeight*0.5f) + right() * (nearWidth*0.5f);
+	Vec3 nbl = nearCenter - up() * (nearHeight*0.5f) - right() * (nearWidth*0.5f);
+	Vec3 nbr = nearCenter - up() * (nearHeight*0.5f) + right() * (nearWidth*0.5f);
+
+	// far points
+	Vec3 ftl = farCenter + up() * (farHeight*0.5f) - right() * (farWidth*0.5f);
+	Vec3 ftr = farCenter + up() * (farHeight*0.5f) + right() * (farWidth*0.5f);
+	Vec3 fbl = farCenter - up() * (farHeight*0.5f) - right() * (farWidth*0.5f);
+	Vec3 fbr = farCenter - up() * (farHeight*0.5f) + right() * (farWidth*0.5f);
+
+	printf("Frustum: near: %f, far %f, nearHeight: %f, nearWidth: %f, farHeight: %f, farWidth: %f\n", near, far, nearHeight, nearWidth, farHeight, farWidth);
+
+	// copies to array
+	// NTL, NTR, NBL, NBR, FTL, FTR, FBL, FBR
+	Vec3 pts[8] = { ntl, ntr, nbl, nbr, ftl, ftr, fbl, fbr };
+
+	// creates the frustum from the points
+	return Frustum(pts);
+}

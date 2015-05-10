@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <hash_map>
 #include <vector>
 #include <list>
 #include "Graphics.h"
@@ -9,8 +10,8 @@
 #include "Program.h"
 #include "Frustum.h"
 
-#define GE_OCTREE_TRI_THRESHOLD 10
-#define GE_OCTREE_DEPTH_MAX 100
+#define GE_OCTREE_TRI_THRESHOLD 300
+#define GE_OCTREE_DEPTH_MAX 4
 
 namespace graphics
 {
@@ -56,7 +57,7 @@ namespace graphics
 			void build(vector<Vec3>& verts, vector<GEuint>& indices);
 
 			// intersects the octree with the given frustum
-			void intersect(ID id, const Frustum& frustum, unordered_map<GEint, Tri>& buffer);
+			GEint intersect(ID id, const Frustum& frustum, Tri* buffer, /*hash_map<GEint, Tri>& map,*/ GEint count);
 
 			// pushes an item to the leaf (assumes that the points each contain at least 3 floats)
 			// this is the only method that should be called by the octree
@@ -132,7 +133,7 @@ namespace graphics
 		//
 		// TODO: Clean this up, implement an easy Tri hashing function and manually track
 		//       whether or not the vertex is already in the buffer.
-		unordered_map<GEint, Tri> mBufferSet;
+		//hash_map<GEint, Tri> mBufferSet;
 
 		void generateModel();
 	public:
@@ -146,6 +147,6 @@ namespace graphics
 		void push(ID id, Tri* tris, Vert* verts, GEint count);
 
 		// intersects an item in the octree with the frustum
-		void intersect(ID id, const Frustum& frustum, vector<Tri>& buffer);
+		GEint intersect(ID id, const Frustum& frustum, Tri* buffer);
 	};
 }

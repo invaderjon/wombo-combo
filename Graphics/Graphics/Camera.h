@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "Graphics.h"
 #include "IControllable.h"
+#include "Frustum.h"
 
 //
 // Title: Camera
@@ -184,6 +185,12 @@ namespace graphics
 		/// </summary>
 		/// <returns>The local x axis vector (untranslated).</returns>
 		virtual const Vec3 right() const = 0;
+		
+		/// <summary>
+		/// Calculates the frustum.
+		/// </summary>
+		/// <returns>The camera's frustum.</returns>
+		virtual const Frustum frustum() const;
 	private:
 		//Vec3 mPosition; // cartensian position in 3D space
 		//Quat mRotation; // the orienation vector

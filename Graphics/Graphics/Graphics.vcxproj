@@ -98,6 +98,7 @@
     <ClCompile Include="ParticleData.cpp" />
     <ClCompile Include="ParticleRenderer.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="DumbParticleEffect.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="StackAllocator.cpp" />
     <ClCompile Include="SubMesh.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="ParticleData.h" />
     <ClInclude Include="ParticleRenderer.h" />
     <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="PoolAllocator.h" />
@@ -189,6 +192,7 @@
     <ClInclude Include="ShaderStructs.h" />
     <ClInclude Include="ISphere.h" />
     <ClInclude Include="DumbParticleEffect.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="StackAllocator.h" />
     <ClInclude Include="SubMesh.h" />
     <ClInclude Include="Texture.h" />

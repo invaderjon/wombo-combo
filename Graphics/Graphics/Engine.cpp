@@ -248,10 +248,11 @@ void Engine::loadHeightMap()
 {
 	glUseProgram(mHMProgram->id());
 	mHeightMap = new HeightMap("Resources/textures/heightmap/map.bmp");
+	mOctree = new Octree();
+	mOctree->push(42, &mHeightMap->mFaces[0], &mHeightMap->mVertices[0], mHeightMap->mFaces.size());
 	mHeightMap->push(mHMProgram);
 
 	glUseProgram(mOTProgram->id());
-	mOctree = new Octree();
 	mOctree->push(mOTProgram);
 }
 
@@ -315,6 +316,8 @@ void Engine::update(GEdouble elapsed)
 	Mat4 view = mCamera->view();
 	mHeightMap->update(&view, elapsed);
 	mOctree->update(&view, elapsed);
+	// perform culling (expect errors)
+	mHeightMap->cull(mOctree, mCamera->frustum());
 	//mFlock->update(&view, elapsed);
 	//mSphere->update(&view, elapsed);
 	//mDumbEffect->update(&view, elapsed);
