@@ -67,7 +67,7 @@ void Octree::OTLeaf::build(vector<Vec3>& verts, vector<GEuint>& indices)
 	}
 }
 
-void Octree::OTLeaf::intersect(ID id, const Frustum& frustum, unordered_set<Tri>& buffer)
+void Octree::OTLeaf::intersect(ID id, const Frustum& frustum, unordered_map<GEint, Tri>& buffer)
 {
 	// if the cube doesn't contain the id stop
 	if (!mOffsets.count(id))
@@ -94,8 +94,16 @@ void Octree::OTLeaf::intersect(ID id, const Frustum& frustum, unordered_set<Tri>
 	// otherwise push all children id's range
 	OTRange range = mOffsets.at(id);
 	Tri* tris = (&mFaces[0] + range.offset);
+	std::hash<GEint> hasher;
+	GEint hash;
+
 	for (i = 0; i < range.count; ++i)
-		buffer.insert(tris[i]);
+	{
+		hash = hasher(tris[i].a);
+		hash = hasher(hash + tris[i].b);
+		hash = hasher(hash + tris[i].c);
+		buffer.insert(make_pair(hash, tris[i]));
+	}
 }
 
 void Octree::OTLeaf::push(ID id, Tri* tris, GEint count, const VertData& data, const Mat4& trans)
@@ -150,8 +158,8 @@ void Octree::OTLeaf::add(ID id, Tri* tris, GEint count, const VertData& data, co
 	if (children > 0)
 	{
 		// pushes the item to all the children
-		//for (GEint i = 0; i < children; ++i)
-		//	mLeafs[i].push(id, &mFaces[ioffset], contained, data, offset, stride, trans);
+		for (GEint i = 0; i < children; ++i)
+			mLeafs[i].push(id, &mFaces[ioffset], contained, data, trans);
 	}
 }
 
@@ -187,8 +195,8 @@ void Octree::OTLeaf::add(ID id, Tri* tris, Vert* verts, GEint count)
 	if (children > 0)
 	{
 		// pushes the item to all the children
-		//for (GEint i = 0; i < children; ++i)
-		//	mLeafs[i].push(id, &mFaces[ioffset], contained, data, offset, stride, trans);
+		for (GEint i = 0; i < children; ++i)
+			mLeafs[i].push(id, &mFaces[ioffset], verts, contained);
 	}
 }
 

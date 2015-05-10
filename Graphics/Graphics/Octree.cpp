@@ -70,23 +70,23 @@ void Octree::render(Program* program)
 	glBindVertexArray(0);
 }
 
+void Octree::push(ID id, Tri* tris, Vert* verts, GEint count)
+{
+	mRoot->push(id, tris, verts, count);
+}
+
 void Octree::intersect(ID id, const Frustum& frustum, vector<Tri>& buffer)
 {
 	// use an unordered map to prevent duplicates
-	unordered_set<Tri>& set = mBufferSet;
+	unordered_map<GEint, Tri>& map = mBufferSet;
 	
 	// removes all items from the set
-	set.clear();
-
-	// add all the verts already in the buffer to the map
-	for (Tri tri : buffer)
-		set.insert(tri);
+	map.clear();
 
 	// intersect with the octree
-	mRoot->intersect(id, frustum, set);
+	mRoot->intersect(id, frustum, map);
 
 	// copy the set back to the buffer
-	buffer.clear();
-	for (auto iter = set.begin(); iter != set.end(); ++iter)
-		buffer.push_back(*iter);
+	for (auto iter = map.begin(); iter != map.end(); ++iter)
+		buffer.push_back(iter->second);
 }
