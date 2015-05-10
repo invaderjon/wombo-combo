@@ -57,7 +57,7 @@ namespace graphics
 			void build(vector<Vec3>& verts, vector<GEuint>& indices);
 
 			// intersects the octree with the given frustum
-			GEint intersect(ID id, const Frustum& frustum, Tri* buffer, /*hash_map<GEint, Tri>& map,*/ GEint count);
+			GEint intersect(ID id, const Frustum& frustum, Tri* buffer, GEint count);
 
 			// pushes an item to the leaf (assumes that the points each contain at least 3 floats)
 			// this is the only method that should be called by the octree

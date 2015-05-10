@@ -118,7 +118,7 @@ void HeightMap::cull(Octree* octree, const Frustum& frustum)
 {
 	mDrawCount = octree->intersect(42, frustum, &mFaces[0]);
 	
-	//printf("Draw Count: %i\n", mDrawCount);
+	printf("Draw Count: %i\n", mDrawCount);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, mDrawCount * sizeof(Tri), &mFaces[0]);

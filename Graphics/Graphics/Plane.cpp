@@ -18,7 +18,7 @@ Plane::Plane(const Vec3& a, const Vec3& b, const Vec3& c)
 {
 	// Determines u & v vectors on plane P
 	Vec3 u = b - a;
-	Vec3 v = c - a;
+	Vec3 v = c - b;
 
 	// Calculates the normal
 	Vec3 n = glm::normalize(glm::cross(u, v));
@@ -49,7 +49,7 @@ GEfloat Plane::d() const
 GEfloat Plane::dist(const Vec3& pt) const
 {
 	// calculate plane's closest point to the origin
-	Vec3 offset = -mConstant * mNormal;
+	Vec3 offset = mConstant * mNormal;
 	
 	// offset system to origin
 	Vec3 p = pt - offset;

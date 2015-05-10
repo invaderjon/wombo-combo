@@ -67,7 +67,7 @@ void Octree::OTLeaf::build(vector<Vec3>& verts, vector<GEuint>& indices)
 	}
 }
 
-GEint Octree::OTLeaf::intersect(ID id, const Frustum& frustum, Tri* buffer, /*hash_map<GEint, Tri>& map,*/ GEint number)
+GEint Octree::OTLeaf::intersect(ID id, const Frustum& frustum, Tri* buffer, GEint number)
 {
 	// if the cube doesn't contain the id stop
 	if (!mOffsets.count(id))
@@ -85,7 +85,7 @@ GEint Octree::OTLeaf::intersect(ID id, const Frustum& frustum, Tri* buffer, /*ha
 	{
 		// intersect with each child
 		for (i = 0; i < 8; ++i)
-			number = mLeafs[i].intersect(id, frustum, buffer, /*map,*/ number);
+			number = mLeafs[i].intersect(id, frustum, buffer, number);
 
 		// children will contain all the verts this does so stop
 		return number;
@@ -94,10 +94,11 @@ GEint Octree::OTLeaf::intersect(ID id, const Frustum& frustum, Tri* buffer, /*ha
 	// otherwise push all children id's range
 	OTRange range = mOffsets.at(id);
 	Tri* tris = (&mFaces[0] + range.offset);
+	Tri* dst = (buffer + number);
 	std::hash<GEint> hasher;
 	GEint hash;
 	
-	memcpy(buffer, tris, range.count);
+	memcpy(dst, tris, range.count*sizeof(Tri));
 	number += range.count;
 
  	return number;

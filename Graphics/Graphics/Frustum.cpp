@@ -34,7 +34,7 @@ Frustum::Frustum(Vec3* verts)
 	// near
 	mBounds[5] = Plane(verts[NTL], verts[NTR], verts[NBR]);
 
-	printf("Frustum Left Plane: normal: <%f %f %f> d: %f\n", mBounds[0].normal().x, mBounds[0].normal().y, mBounds[0].normal().z, mBounds[0].d());
+	//printf("Frustum Left Plane: normal: <%f %f %f> d: %f\n", mBounds[0].normal().x, mBounds[0].normal().y, mBounds[0].normal().z, mBounds[0].d());
 }
 
 Frustum::Frustum(Plane* planes)

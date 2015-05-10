@@ -30,6 +30,13 @@ int main(int argc, char **argv)
 	time = high_resolution_clock::to_time_t(high_resolution_clock::now());
 	std::cout << std::put_time(std::localtime(&time), "%c %Z") << std::endl;
 
+	Plane p = Plane(Vec3(0, 0, 1), Vec3(1, 1, 1), Vec3(-1, 1, 1));
+	Vec3 pt = Vec3(0, 0, 0);
+	printf("Normal: <%f, %f, %f>\n", p.normal().x, p.normal().y, p.normal().z);
+	printf("Distance: %f\n", p.dist(pt));
+	pt += p.normal() * p.dist(pt);
+	printf("Displacement: <%f, %f, %f>\n", pt.x, pt.y, pt.z);
+
 	//std::cout << tester(100) << endl;
 	return engine.start(argc, argv);
 }
