@@ -141,8 +141,9 @@ const Frustum Camera::frustum() const
 	GEfloat ar = aspectRatio();
 
 	// calculates near and far center points
-	Vec3 nearCenter = position() - forward() * near;
-	Vec3 farCenter = position() - forward() * far;
+	Vec3 frwrd = glm::normalize(center() - eye());
+	Vec3 nearCenter = eye() + frwrd * near;
+	Vec3 farCenter = eye() + frwrd * far;
 
 	// calculates near and far sizes
 	GEfloat nearHeight = 2 * std::tanf(fov / 2) * near;
@@ -162,7 +163,7 @@ const Frustum Camera::frustum() const
 	Vec3 fbl = farCenter - up() * (farHeight*0.5f) - right() * (farWidth*0.5f);
 	Vec3 fbr = farCenter - up() * (farHeight*0.5f) + right() * (farWidth*0.5f);
 
-	printf("Frustum: near: %f, far %f, nearHeight: %f, nearWidth: %f, farHeight: %f, farWidth: %f\n", near, far, nearHeight, nearWidth, farHeight, farWidth);
+	printf("Frustum: <%f, %f, %f> <%f, %f, %f> <%f, %f, %f> <%f, %f, %f>\n", ntl.x, ntl.y, ntl.z, ntr.x, ntr.y, ntr.z, nbl.x, nbl.y, nbl.z, nbr.x, nbr.y, nbr.z);
 
 	// copies to array
 	// NTL, NTR, NBL, NBR, FTL, FTR, FBL, FBR
