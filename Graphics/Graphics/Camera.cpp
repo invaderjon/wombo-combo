@@ -141,7 +141,6 @@ const Frustum Camera::frustum() const
 	GEfloat ar = aspectRatio();
 
 	// calculates near and far center points
-	//Vec3 frwrd = glm::normalize(center() - eye());
 	Vec3 frwrd = glm::normalize(center() - eye());
 	Vec3 nearCenter = eye() + frwrd * near;
 	Vec3 farCenter = eye() + frwrd * far;
@@ -164,8 +163,8 @@ const Frustum Camera::frustum() const
 	Vec3 fbl = farCenter - up() * (farHeight*0.5f) - right() * (farWidth*0.5f);
 	Vec3 fbr = farCenter - up() * (farHeight*0.5f) + right() * (farWidth*0.5f);
 
-	//printf("Frustum Near: <%f, %f, %f> <%f, %f, %f> <%f, %f, %f> <%f, %f, %f>\n", ntl.x, ntl.y, ntl.z, ntr.x, ntr.y, ntr.z, nbl.x, nbl.y, nbl.z, nbr.x, nbr.y, nbr.z);
-	//printf("Frustum Far: <%f, %f, %f> <%f, %f, %f> <%f, %f, %f> <%f, %f, %f>\n", ftl.x, ftl.y, ftl.z, ftr.x, ftr.y, ftr.z, fbl.x, fbl.y, fbl.z, fbr.x, fbr.y, fbr.z);
+	printf("Frustum Near: <%f, %f, %f> <%f, %f, %f> <%f, %f, %f> <%f, %f, %f>\n", ntl.x, ntl.y, ntl.z, ntr.x, ntr.y, ntr.z, nbl.x, nbl.y, nbl.z, nbr.x, nbr.y, nbr.z);
+	printf("Frustum Far: <%f, %f, %f> <%f, %f, %f> <%f, %f, %f> <%f, %f, %f>\n", ftl.x, ftl.y, ftl.z, ftr.x, ftr.y, ftr.z, fbl.x, fbl.y, fbl.z, fbr.x, fbr.y, fbr.z);
 
 	// copies to array
 	// NTL, NTR, NBL, NBR, FTL, FTR, FBL, FBR

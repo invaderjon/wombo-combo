@@ -51,8 +51,8 @@ Frustum::~Frustum()
 bool Frustum::contains(const Vec4& cube) const
 {
 	bool cont = false;
-	GEfloat x = cube.x;
-	GEfloat y = cube.y;
+	GEfloat x = -cube.x;
+	GEfloat y = -cube.y;
 	GEfloat z = cube.z;
 	GEfloat s = cube.w;
 
