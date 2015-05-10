@@ -18,13 +18,13 @@ Plane::Plane(const Vec3& a, const Vec3& b, const Vec3& c)
 {
 	// Determines u & v vectors on plane P
 	Vec3 u = b - a;
-	Vec3 v = c - b;
+	Vec3 v = c - a;
 
 	// Calculates the normal
 	Vec3 n = glm::normalize(glm::cross(u, v));
 	
 	// Calculates d in ax + by + cz + d = 0 where <x, y, z> is point A
-	GEfloat d = -(n.x*a.x + n.y*a.y + n.z*a.z);
+	GEfloat d = -glm::dot(a, n);
 
 	// stores in local variables
 	mNormal = n;

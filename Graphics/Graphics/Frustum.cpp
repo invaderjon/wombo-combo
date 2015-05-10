@@ -1,4 +1,12 @@
 #include "Frustum.h"
+#define NTL 0
+#define NTR 1
+#define NBL 2
+#define NBR 3
+#define FTL 4
+#define FTR 5
+#define FBL 6
+#define FBR 7
 
 using namespace graphics;
 
@@ -11,12 +19,22 @@ Frustum::Frustum(Vec3* verts)
 	// NTL, NTR, NBL, NBR, FTL, FTR, FBL, FBR 
 	// L, R, T, B, F, N
 	// all constructed CCW
-	mBounds[0] = Plane(verts[3], verts[2], verts[6]);
-	mBounds[1] = Plane(verts[1], verts[3], verts[7]);
-	mBounds[2] = Plane(verts[1], verts[0], verts[4]);
-	mBounds[3] = Plane(verts[2], verts[3], verts[6]);
-	mBounds[4] = Plane(verts[6], verts[7], verts[5]);
-	mBounds[5] = Plane(verts[0], verts[1], verts[3]);
+	
+	// prefers far points since they are scaled more and less likely to cause rounding errors
+	// left
+	mBounds[0] = Plane(verts[NBL], verts[FBL], verts[FTL]);
+	// right
+	mBounds[1] = Plane(verts[NTR], verts[FTR], verts[FBR]);
+	// top
+	mBounds[2] = Plane(verts[NTL], verts[FTL], verts[FTR]);
+	// bottom
+	mBounds[3] = Plane(verts[NBR], verts[FBR], verts[FBL]);
+	// far
+	mBounds[4] = Plane(verts[FTR], verts[FTL], verts[FBL]);
+	// near
+	mBounds[5] = Plane(verts[NTL], verts[NTR], verts[NBR]);
+
+	printf("Frustum Left Plane: normal: <%f %f %f> d: %f\n", mBounds[0].normal().x, mBounds[0].normal().y, mBounds[0].normal().z, mBounds[0].d());
 }
 
 Frustum::Frustum(Plane* planes)
@@ -66,11 +84,15 @@ bool Frustum::contains(const Vec3& pt) const
 		distB = mBounds[p + 1].dist(pt);
 
 		// calculates vectors that connect closest point to cube point
-		u = mBounds[p].normal() * distA + pt;
-		v = mBounds[p + 1].normal() * distB + pt;
+		u = pt + mBounds[p].normal() * distA;
+		v = pt + mBounds[p + 1].normal() * distB;
+
+		// gets absolute values of distances
+		distA = fabsf(distA);
+		distB = fabsf(distB);
 
 		// calculates the distance between those two points
-		distC = glm::distance(u, v);
+		distC = fabsf(glm::distance(u, v));
 
 		// if distance C is not greater than both of the others then
 		// the point lies outside of the bounds
