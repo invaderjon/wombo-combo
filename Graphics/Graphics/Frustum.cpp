@@ -54,7 +54,7 @@ bool Frustum::contains(const Vec4& cube) const
 	GEfloat x = cube.x;
 	GEfloat y = cube.y;
 	GEfloat z = cube.z;
-	GEfloat s = cube.s;
+	GEfloat s = cube.w;
 
 	// checks if it's contained for each point
 	cont |= contains(Vec3(x - s, y - s, z - s));
@@ -86,6 +86,7 @@ bool Frustum::contains(const Vec3& pt) const
 		// calculates vectors that connect closest point to cube point
 		u = pt + mBounds[p].normal() * distA;
 		v = pt + mBounds[p + 1].normal() * distB;
+		//printf("PT: <%f, %f, %f>    PlaneA: <%f, %f, %f>    PlaneB: <%f, %f, %f>\n", pt.x, pt.y, pt.z, u.x, u.y, u.z, v.x, v.y, v.z);
 
 		// gets absolute values of distances
 		distA = fabsf(distA);
