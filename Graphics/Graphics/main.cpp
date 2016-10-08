@@ -22,12 +22,12 @@ using namespace std::chrono;
 int main(int argc, char **argv)
 {
 	Engine engine;
-	high_resolution_clock::time_point now = high_resolution_clock::now();
-	std::time_t time = high_resolution_clock::to_time_t(high_resolution_clock::now());
+	system_clock::time_point now = system_clock::now();
+	std::time_t time = system_clock::to_time_t(system_clock::now());
 	std::cout << std::put_time(std::localtime(&time), "%c %Z") << std::endl;
 
-	now = high_resolution_clock::now();
-	time = high_resolution_clock::to_time_t(high_resolution_clock::now());
+	now = system_clock::now();
+	time = system_clock::to_time_t(system_clock::now());
 	std::cout << std::put_time(std::localtime(&time), "%c %Z") << std::endl;
 
 	Plane p = Plane(Vec3(0, 0, 1), Vec3(1, 1, 1), Vec3(-1, 1, 1));
